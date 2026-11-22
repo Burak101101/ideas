@@ -1,12 +1,12 @@
 # Günlük Fikir → Değerlendirme → MVP → Test Hattı
 
 ## Amaç
-Her gün, gerçekten para kazandığı kanıtlanmış (exit yapmış ya da ≥ $2K MRR) ve somut bir sorunu çözen SaaS fikirlerini bulmak, pazarına göre elemek ve en iyisinden **bitmiş, test edilmiş** bir MVP çıkarmak. Nihai hedef: kullanıcının yayınlayıp deneyebileceği MVP'ler.
+Her gün, insanların para ödemeye hazır olduğu somut sorunları bulmak (TrustMRR kategori verisiyle o alanda gerçek gelir olduğunu doğrulayarak), pazarına göre elemek ve en iyisinden **bitmiş, test edilmiş** bir MVP çıkarmak. Nihai hedef: kullanıcının yayınlayıp deneyebileceği MVP'ler.
 
 ## Hedefler / Hedef olmayanlar
 - **Hedef:** Günde 1 tarama, 1 değerlendirme, 1 geliştirme oturumu, 1 test oturumu. Aynı anda **tek bir MVP** geliştirilir; bitmeden yenisine başlanmaz. Her şey `Burak101101/ideas` reposunda kalıcı.
 - **Hedef değil:** Product Hunt (bot koruması 403 veriyor; ileride erişilirse eklenir). Deploy / canlıya alma.
-- **Anti-hedef:** Ürünlerin adını, markasını, tasarımını ya da kodunu kopyalamak — *sorunu* alıp kendi çözümümüzü yazarız. Uydurma MRR / pazar verisi. Bir MVP'nin sonsuza kadar "devam ediyor"da kalması.
+- **Anti-hedef:** TrustMRR'ı taramak ya da oradaki tek bir startup'ı hedef alıp taklit etmek. Ürünlerin adını, markasını, tasarımını ya da kodunu kopyalamak — *sorunu* alıp kendi çözümümüzü yazarız. Uydurma MRR / pazar verisi. Bir MVP'nin sonsuza kadar "devam ediyor"da kalması.
 
 ## Yaklaşımlar
 - **A) Ayrı zamanlanmış görevler + repo dosyaları üzerinden kuyruk** — ✅ seçildi. Her ajan temiz oturum, birinin hatası diğerini durdurmaz.
@@ -17,7 +17,7 @@ Her gün, gerçekten para kazandığı kanıtlanmış (exit yapmış ya da ≥ $
 ### Zamanlama (Europe/Istanbul, her gün)
 | Saat | Ajan | İş |
 |---|---|---|
-| 07:10 | Araştırmacı | TrustMRR → `ideas/inbox/` (her gün, MVP durumundan bağımsız) |
+| 07:10 | Araştırmacı | HN + web araması + elle notlar → `ideas/inbox/` (her gün, MVP durumundan bağımsız) |
 | 09:10 | Değerlendirici | `inbox/` → `approved/` (öncelikli kuyruk) veya `rejected/` |
 | 11:10 | Geliştirici | Aktif MVP varsa son review'dan başlar ve devam eder; yoksa kuyruğun başındaki fikre başlar |
 | 15:10 | Tester | Aktif MVP'yi test eder, review yazar, bitti/bitmedi kararı verir |
@@ -34,13 +34,21 @@ ideas/inbox/ approved/ rejected/ in-progress/ done/
 mvps/<slug>/            # kod + README.md + STATUS.md + reviews/YYYY-MM-DD.md
 ```
 
+### TrustMRR kullanım kuralı (şartlarına uyum)
+TrustMRR'ın şartları siteyi taramayı (scrape) ve "başarılı startup'ları taklit etmek için belirleyen" otomasyonu yasaklar; API ile iç analiz serbesttir. Bu yüzden:
+- Yalnızca resmi API (`https://trustmrr.com/api/v1/startups`), anahtar ortamda kayıtlı (proxy ekler). Site sayfaları taranmaz.
+- Yalnızca **kategori düzeyinde toplam** sorgular: her istekte `limit=1` ve sadece `meta.total` okunur. Tek tek startup adı/ürünü fikir kaynağı olarak kullanılmaz, dosyalara yazılmaz.
+- Dakikada ≤ 10 istek. Tutar filtreleri **dolar** cinsindendir (doküman "cent" dese de gözlem: `minRevenue=2000` = $2K).
+- Talep sinyali, kategori başına: `total`, `minRevenue=2000` sayısı, `minMrr=2000` sayısı, `onSale=true` sayısı.
+
 ### 1. Araştırmacı (her gün çalışır)
-- TrustMRR'da satılık/satılmış listeleri ve startup sayfalarını tarar.
-- Şart: (exit/acquired) **veya** (doğrulanmış MRR ≥ $2K) **ve** somut bir sorun çözüyor. `seen.json`'dakileri atlar. Günde en fazla 5 yeni aday.
-- Fikir dosyası: ürün + link, MRR/exit kanıtı, sorun, hedef kullanıcı, fiyatlandırma, notlar.
+- Fikirleri **sorundan** bulur: Hacker News arama API'si (`hn.algolia.com`, anahtarsız; "I would pay", "is there a tool", "I wish there was", "Ask HN" şikâyetleri) ve web araması (mevcut araçlara yönelik şikâyetler, açık pazar raporları).
+- Kullanıcının elle `ideas/inbox/`'a bıraktığı notlar (TrustMRR'dan ilham dahil) de değerlendirmeye girer; araştırmacı bunları şablona tamamlar.
+- Şart: somut, tekrar eden ve birilerinin para ödemeye hazır göründüğü bir sorun (kanıt linkiyle). Her fikre bir TrustMRR kategorisi atanır. `seen.json`'daki sorunları atlar. Günde en fazla 5 yeni aday.
+- Fikir dosyası: sorun, kanıtlar (linkler + alıntılar), hedef kullanıcı, mevcut çözümler, TrustMRR kategorisi, notlar.
 
 ### 2. Değerlendirici
-- 6 kriterde 1–5 puan + kaynak linkleri: pazar büyüklüğü, büyüme, rekabet (ters), farklılaşma, dağıtım kolaylığı, MVP yapılabilirliği. Geçme: ortalama ≥ 3.5 ve yapılabilirlik ≥ 3. Geçenlere "MVP Kapsamı" (3–5 çekirdek özellik + kapsam dışı) ekler.
+- 6 kriterde 1–5 puan + kaynak linkleri: **talep** (TrustMRR kategori sinyali + HN/web kanıtı), büyüme, rekabet (ters), farklılaşma, dağıtım kolaylığı, MVP yapılabilirliği. Geçme: ortalama ≥ 3.5 ve yapılabilirlik ≥ 3. Geçenlere "MVP Kapsamı" (3–5 çekirdek özellik + kapsam dışı) ekler.
 - **Önceliklendirme:** `approved/` bir kuyruktur. Her dosyada `priority:` (1 = en önce) vardır; değerlendirici her gün yeni gelenlerle birlikte tüm kuyruğu yeniden sıralar ve çok güçlü gördüğü bir fikri öne alabilir (gerekçesini yazar). Aktif MVP'ye dokunmaz.
 
 ### 3. Geliştirici
@@ -62,4 +70,4 @@ Ajanlar arası devir repodan olduğu için her ajan doğrudan `main`'e commit + 
 Tester görevinin bitişinde telefona push bildirimi (günün MVP durumu).
 
 ## Builder'a bırakılanlar
-Prompt'ların tam metni, TrustMRR sayfa yapısına göre tarama yöntemi, MVP içindeki teknik kararlar.
+Prompt'ların tam metni, HN/web arama sorguları, MVP içindeki teknik kararlar.

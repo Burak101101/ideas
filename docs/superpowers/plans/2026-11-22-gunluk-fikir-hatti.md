@@ -7,6 +7,9 @@
 **Tech Stack:** Markdown prompt'lar, Claude Code zamanlanmış görevleri, MVP'ler için Next.js + TypeScript + Tailwind + SQLite (Prisma), test için Playwright.
 **Spec:** `docs/superpowers/specs/2026-11-22-gunluk-fikir-hatti-design.md`
 
+## Değişiklik notu (2026-11-22)
+TrustMRR şartları site taramasını ve "başarılı startup'ı taklit etmek için belirleyen" otomasyonu yasakladığı için araştırmacı artık HN (hn.algolia.com) + web araması + kullanıcı notlarıyla sorun bulur; TrustMRR yalnızca değerlendiricide, resmi API ile ve yalnızca kategori düzeyinde toplam (`limit=1`, `meta.total`) olarak kullanılır. Ayrıntı: spec'teki "TrustMRR kullanım kuralı".
+
 ## Global Constraints
 - Saatler Europe/Istanbul: 07:10 araştırma, 09:10 değerlendirme, 11:10 geliştirme, 15:10 test.
 - Seçim: (exit/acquired) veya (doğrulanmış MRR ≥ $2K) ve somut bir sorun. Günde en fazla 5 yeni aday.
