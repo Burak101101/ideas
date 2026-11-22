@@ -5,12 +5,12 @@
 ## 1. Başla
 `pipeline/active.json`'ı oku.
 - `slug` null → yapacak iş yok (CLAUDE.md kural 3).
-- `H=$(git log -1 --format=%H -- mvps/<slug> ':!mvps/<slug>/reviews' ':!mvps/<slug>/STATUS.md')` (geliştiricinin son kod commit'i; review'lar sayılmaz); `H` == `last_tested_commit` → geliştirici bugün yeni bir şey göndermemiş. `mvps/<slug>/reviews/YYYY-MM-DD.md`'ye tek satır yaz: "Yeni commit yok; son review geçerli." Commit `test: <slug> YYYY-MM-DD yeni-commit-yok`, push, bitir. Gün sayacına dokunma.
+- `H=$(git log -1 --format=%H -- mvps/<slug> ':!mvps/<slug>/reviews' ':!mvps/<slug>/STATUS.md')` (geliştiricinin son kod commit'i; review'lar sayılmaz); `H` == `last_tested_commit` → geliştirici bugün yeni bir şey göndermemiş. Review dosyası **yazma** (geliştirici en yeni review'dan başlar; gerçek bulgular kaybolmasın). Yalnızca takvim sınırını kontrol et (adım 4); kapanmıyorsa hiçbir şeyi değiştirmeden bitir.
 
 ## 2. Test et (temiz kurulum)
 `mvps/<slug>/` içinde, README'deki adımlarla:
-1. `npm ci`, migrasyon, `npm run build`, `npm test`, `npm run test:e2e` — her birinin sonucunu not et.
-2. Uygulamayı başlat (`npm run start` ya da README'deki komut) ve **Playwright ile kullanıcı gibi** kullan: `ideas/in-progress/<dosya>`daki MVP Kapsamı'ndaki **her kabul kriterini** tek tek dene. Önemli ekranların ekran görüntüsünü `mvps/<slug>/reviews/shots/YYYY-MM-DD/` altına kaydet (deviceScaleFactor 1).
+1. `cp .env.example .env`, `npm ci`, migrasyon, `npm run build`, `npm test`, `npm run test:e2e` — her birinin sonucunu not et.
+2. Uygulamayı başlat (`npm run start` ya da README'deki komut) ve **Playwright ile kullanıcı gibi** kullan: `ideas/in-progress/<dosya>`daki MVP Kapsamı'ndaki **her kabul kriterini** tek tek dene. Önemli ekranların ekran görüntüsünü `mvps/<slug>/reviews/shots/YYYY-MM-DD/` altına kaydet (deviceScaleFactor 1). `npx playwright install` çalıştırma; Chromium `/opt/pw-browsers/chromium`'da kurulu.
 3. Ayrıca dene: boş girdiler, çok uzun girdiler, sayfayı yenileme, geri tuşu, mobil genişlik (375px), hata durumları.
 4. Geliştiricinin testlerine de bak: kabul kriterlerini gerçekten doğruluyorlar mı, yoksa her zaman geçen boş testler mi?
 
@@ -47,7 +47,7 @@ Kritik = bir çekirdek özellik çalışmıyor, build/test kırık, veri kaybı 
 
 ## 4. Karar
 - **ready:** tüm kabul kriterleri ✅, build + tüm testler geçiyor, hiç Kritik yok.
-- **ready-with-issues:** `day` ≥ 10 ve ready değil. Kalan sorunlar review'da listelenir.
+- **ready-with-issues:** ready değil ve (`day` ≥ 10 **veya** `started`'dan bu yana ≥ 14 takvim günü geçmiş — geliştirici günlerce çalışamazsa hat tıkanmasın). Kalan sorunlar review'da listelenir.
 - Aksi hâlde **in-progress**.
 
 ready veya ready-with-issues ise: `STATUS.md` ön bilgisinde `status`'u güncelle, fikir dosyasını `ideas/in-progress/` → `ideas/done/` taşı (git mv), `active.json`'ı `{"slug": null, "started": null, "day": 0, "last_tested_commit": null}` yap. Ertesi gün geliştirici kuyruktaki sıradaki fikre geçer.

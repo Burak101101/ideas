@@ -4,10 +4,10 @@
 
 **Görev:** `ideas/inbox/` içindeki her fikri pazar dinamiklerine göre puanla, geçenleri `ideas/approved/` kuyruğuna koy, sonra tüm kuyruğu yeniden önceliklendir. `ideas/in-progress/` içindeki aktif fikre dokunma.
 
-Inbox boşsa yalnızca adım 3'ü (yeniden sıralama) değerlendir; değişiklik gerekmiyorsa commit atma.
+Ön bilgisi (`---` bloğu) olmayan dosyalar kullanıcının henüz tamamlanmamış notlarıdır: dokunma, ertesi gün araştırmacı tamamlayacak. Inbox'ta değerlendirilecek dosya yoksa yalnızca adım 3'ü (yeniden sıralama) değerlendir; değişiklik gerekmiyorsa commit atma.
 
 ## 1. Talep verisi (TrustMRR, kategori düzeyi)
-Bugün inbox'taki fikirlerin kategorileri için, kategori başına şu 4 isteği at (her biri `limit=1`, yalnızca `meta.total` oku, istekler arasında ≥ 7 saniye bekle):
+Bugün inbox'taki fikirlerin kategorileri için, kategori başına şu 4 isteği at (her biri `limit=1`, istekler arasında ≥ 7 saniye bekle). Yanıt yine de bir startup kaydı içerir; onu görmemek için çıktıyı her zaman şöyle süz: `curl -s "<url>" | python3 -c "import json,sys;print(json.load(sys.stdin)['meta']['total'])"`
 ```
 https://trustmrr.com/api/v1/startups?category=<k>&limit=1
 https://trustmrr.com/api/v1/startups?category=<k>&minRevenue=2000&limit=1
@@ -52,7 +52,7 @@ Geçen her fikre ekle:
 ```
 Dosyayı `ideas/approved/`'a, kalanları `ideas/rejected/`'a taşı (git mv).
 
-**Önceliklendirme:** `ideas/approved/` içindeki tüm dosyaları (yeniler dahil) sırala ve ön bilgideki `priority:` alanını 1'den başlayarak yeniden yaz. Varsayılan sıra `score` (yüksek önce). Çok güçlü gördüğün bir fikri skordan bağımsız öne alabilirsin; bunu yaparsan dosyaya `## Öncelik notu (YYYY-MM-DD)` altında tek paragraf gerekçe yaz.
+**Önceliklendirme:** `ideas/approved/` içindeki tüm dosyaları (yeniler dahil) sırala ve ön bilgideki `priority:` alanını **her gün** 1'den başlayarak boşluksuz (1..n) yeniden yaz; bir numara eksikse bu da değişiklik sayılır ve commit'lenir. Varsayılan sıra `score` (yüksek önce). Çok güçlü gördüğün bir fikri skordan bağımsız öne alabilirsin; bunu yaparsan dosyaya `## Öncelik notu (YYYY-MM-DD)` altında tek paragraf gerekçe yaz.
 
 ## 4. Bitir
 Commit: `evaluate: YYYY-MM-DD <geçen>/<toplam>`, push (CLAUDE.md kural 2).

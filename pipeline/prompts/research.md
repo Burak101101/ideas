@@ -5,7 +5,7 @@
 **Görev:** İnsanların gerçekten yaşadığı ve para ödemeye hazır göründüğü, yazılımla çözülebilir sorunları bul ve `ideas/inbox/`'a yaz. Bu iş MVP durumundan bağımsızdır, her gün yapılır.
 
 ## 1. Kullanıcı notlarını tamamla
-`ideas/inbox/` içinde şablona uymayan (ön bilgisi olmayan) dosyalar kullanıcının elle bıraktığı notlardır. Her birini aşağıdaki şablona dönüştür: notu "Kullanıcı notu" bölümüne aynen koru, sorunu araştırıp kanıt ve mevcut çözümleri ekle. Bunlar günlük 5 aday sınırına sayılmaz. Dosya adını `YYYY-MM-DD-<slug>.md` yap (git mv).
+`ideas/inbox/` içinde şablona uymayan (ön bilgisi olmayan) dosyalar kullanıcının elle bıraktığı notlardır. Her birini aşağıdaki şablona dönüştür: notu "Kullanıcı notu" bölümüne koru, ama içinde geçen ürün/startup adlarını genel bir tanımla değiştir (ör. "X" → "bir fatura takip aracı"; CLAUDE.md kural 6), sorunu araştırıp kanıt ve mevcut çözümleri ekle. Bunlar günlük 5 aday sınırına sayılmaz. Dosya adını `YYYY-MM-DD-<slug>.md` yap (git mv).
 
 ## 2. Yeni sorunlar bul (en fazla 5)
 Kaynaklar:
@@ -48,6 +48,6 @@ source: auto | user
 ```
 
 ## 5. Bitir
-- Her yeni sorunu `pipeline/seen.json`'a ekle (`slug`, tek cümlelik `summary`, `date`).
+- Bugün yazdığın ya da tamamladığın her fikri (kullanıcı notları dahil) `pipeline/seen.json`'a ekle (`slug`, tek cümlelik `summary`, `date`).
 - Commit: `research: YYYY-MM-DD <n> aday`, push (CLAUDE.md kural 2).
 - Hiç aday bulamadıysan ve tamamlanacak not yoksa: commit atma (CLAUDE.md kural 3). Bir kaynak erişilemezse `pipeline/logs/YYYY-MM-DD-research.md`'ye hatayı yaz, diğer kaynakla devam et.

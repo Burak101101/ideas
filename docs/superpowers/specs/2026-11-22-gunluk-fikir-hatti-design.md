@@ -27,8 +27,8 @@ Her görev yeni bir oturum açar ve yalnızca *"`pipeline/prompts/<ajan>.md` dos
 ### Repo yapısı
 ```
 pipeline/prompts/research.md evaluate.md build.md test.md
-pipeline/seen.json      # taranmış ürünler (tekrar önleme)
-pipeline/active.json    # {"slug": "...", "started": "YYYY-MM-DD", "day": N} ya da {"slug": null}
+pipeline/seen.json      # bulunmuş sorunlar (tekrar önleme)
+pipeline/active.json    # {"slug", "started", "day", "last_tested_commit"}; slug null = aktif MVP yok
 pipeline/logs/          # hata / "yapacak iş yok" kayıtları
 ideas/inbox/ approved/ rejected/ in-progress/ done/
 mvps/<slug>/            # kod + README.md + STATUS.md + reviews/YYYY-MM-DD.md
@@ -61,7 +61,7 @@ TrustMRR'ın şartları siteyi taramayı (scrape) ve "başarılı startup'ları 
 - Aktif MVP'yi temiz kurulumla çalıştırır: install, build, testler, uygulamayı ayağa kaldırıp (Playwright ile) MVP Kapsamı'ndaki her özelliği kullanıcı gibi dener.
 - `mvps/<slug>/reviews/YYYY-MM-DD.md` yazar: özellik bazında çalışıyor/çalışmıyor, bulunan hatalar **Kritik / Önemli / Küçük** olarak, her birine tekrar üretme adımları.
 - **Bitti kararı:** Kapsamdaki tüm özellikler çalışıyor, build + testler yeşil ve hiç Kritik madde yoksa → `STATUS.md: ready`, fikir `ideas/done/`'a, `active.json` boşaltılır. Ertesi gün geliştirici kuyruktaki sıradaki fikre geçer.
-- **Süre sınırı:** Bir MVP **10 geliştirme gününü** doldurursa tester onu `ready-with-issues` olarak kapatır (kalan sorunlar review'da listelenir); böylece hat tıkanmaz.
+- **Süre sınırı:** Bir MVP **10 geliştirme gününü** (ya da 14 takvim gününü) doldurursa tester onu `ready-with-issues` olarak kapatır (kalan sorunlar review'da listelenir); böylece hat tıkanmaz.
 
 ### Git
 Ajanlar arası devir repodan olduğu için her ajan doğrudan `main`'e commit + push yapar. Çakışmada `git pull --rebase` ve bir kez tekrar.
