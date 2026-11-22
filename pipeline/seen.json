@@ -1,1 +1,24 @@
-{"problems": []}
+{
+  "problems": [
+    {
+      "slug": "guvenlik-anketi-yanitlayici",
+      "summary": "Güvenlik ekibi olmayan küçük B2B satıcılar kurumsal müşterilerden gelen 100–300 soruluk güvenlik anketlerini her seferinde elle dolduruyor.",
+      "date": "2026-11-22"
+    },
+    {
+      "slug": "saha-hizmeti-reklam-getiri-takibi",
+      "summary": "Küçük saha hizmeti işletmeleri iş/ekip takibini ve yerel reklam harcamasının getirisini ERP ile Excel arasında kalan araçlarla yönetemiyor.",
+      "date": "2026-11-22"
+    },
+    {
+      "slug": "danismanlik-zaman-fatura-uyumu",
+      "summary": "Danışmanlık şirketleri ön ödemeli saat, PO ve ana yüklenici gibi durumları zaman takibi/fatura araçlarında modelleyemediği için ayda günler kaybediyor.",
+      "date": "2026-11-22"
+    },
+    {
+      "slug": "blog-backlink-uyarisi",
+      "summary": "Blog yazarları yazıları başka sitelerden linklenip trafik aldığında bunu ve kaynağını zamanında öğrenemiyor.",
+      "date": "2026-11-22"
+    }
+  ]
+}
