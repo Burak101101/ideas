@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: ready
 day: 1
 ---
 ## Son oturum (2026-11-23)
