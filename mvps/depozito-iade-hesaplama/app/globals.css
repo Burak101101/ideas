@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1f2a2e;
+  --color-paper: #f7f5ef;
+  --color-teal: #1d6f6a;
+  --color-amber: #b26b00;
+  --color-brick: #a33a2c;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+  .letter { box-shadow: none !important; border: none !important; }
+}
