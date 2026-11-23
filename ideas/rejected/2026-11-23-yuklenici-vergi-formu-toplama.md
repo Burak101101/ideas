@@ -3,6 +3,7 @@ slug: yuklenici-vergi-formu-toplama
 found: 2026-11-23
 category: fintech
 source: auto
+score: 2.33
 ---
 # Serbest çalışan/usta ödemelerinde W-9 toplama ve yıl sonu 1099 hazırlığı
 
@@ -21,3 +22,15 @@ Yılda 5–50 serbest çalışan/ustaya ödeme yapan ABD'li küçük işletmeler
 - Yüklenici ödeme/uyum platformları — fiyat: veri yok — ödemeyi de kendi üzerinden yaptırmak istiyor; ara sıra usta çalıştıran biri için ağır.
 - Muhasebe/ödeme yazılımlarındaki 1099 modülleri — fiyat: veri yok — W-9'u ödeme öncesinde zorunlu kılmıyor, kişi başı yıllık toplam eşik uyarısı sınırlı.
 - E-posta ile PDF form isteme + tablo — ücretsiz — takip, hatırlatma ve eksik alan kontrolü yok.
+
+## Değerlendirme (2026-11-23)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR fintech: 28/504, oran %5.6 (zayıfa yakın; pipeline/logs/2026-11-23-trustmrr.md). Dosyada güncel bir BiggerPockets başlığı ve muhasebeci yazısı. |
+| büyüme | 2 | Büyüme verisi yok; ihtiyaç Ocak'ta yoğunlaşan mevsimsel bir ihtiyaç. |
+| rekabet | 1 | Ücretsiz seçenekler bol: TaxBandits sınırsız ücretsiz W-9 toplama (https://www.taxbandits.com/w9-forms/), Holdings ücretsiz ödeme/eşik takibi (https://getholdings.com/tools/contractor-payments), Zoho Books W-9/1099 modülü (https://zoho.com/us/books/accounting-software-features/1099-tracking-w9-forms/), $10–$17 Etsy tabloları. |
+| farklılaşma | 2 | "İlk ödemeden önce W-9 iste + kişi başı yıllık toplam" önerisi ücretsiz araçlarda zaten mevcut (yukarıdaki kaynaklar). |
+| dağıtım | 3 | BiggerPockets ve muhasebeci kanalları mevcut; ücretsiz rakipler SEO'yu tutuyor. |
+| yapılabilirlik | 3 | Çekirdek kolay ama vergi kimlik numarası (TIN) gibi hassas veriyi güvenle saklama yükü tek kişilik MVP için ağır. |
+
+**Ortalama:** 2.33 — **Karar:** kaldı

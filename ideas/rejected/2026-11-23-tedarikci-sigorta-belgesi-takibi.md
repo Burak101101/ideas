@@ -3,6 +3,7 @@ slug: tedarikci-sigorta-belgesi-takibi
 found: 2026-11-23
 category: real-estate
 source: auto
+score: 3.00
 ---
 # Tedarikçi/taşeron sigorta belgelerinin süresini takip etme
 
@@ -23,3 +24,15 @@ Küçük ev sahipleri, mülk yöneticileri ve küçük müteahhitler çalıştı
 - Küçük işletme odaklı COI araçları — arama özetine göre aylık $29–$149 aralığında planlar ya da tedarikçi başına ~$0.95/ay (Capterra/SaaSworthy listeleri; sayfalar açılmadı, doğrulanmadı).
 - Mülk yönetim yazılımlarının yerleşik modülü — fiyat: veri yok — yalnızca o yazılımı kullananlar için; ayrı bir ihtiyaç için tüm paketi almak gerekiyor.
 - Tablo + takvim hatırlatıcısı — ücretsiz — PDF'ten bitiş tarihi elle giriliyor, güncellenmeyince işe yaramıyor; ödeme anında kontrol yok.
+
+## Değerlendirme (2026-11-23)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR real-estate: 18/200, oran %9.0 (mutlak sayı düşük; pipeline/logs/2026-11-23-trustmrr.md). Kanıtlardan biri taraflı (dev.to yazarı ürün tanıtıyor), biri 2007 tarihli. |
+| büyüme | 3 | Çok sayıda yeni ve küçük COI aracı listeleniyor (CertCove, TrackSurePro; https://www.capterra.ca/software/1109350/CertCove, https://www.sourceforge.net/software/product/TrackSurePro); sayısal büyüme verisi yok. |
+| rekabet | 2 | Certificial'ın ücretsiz temel katmanı ve $49 planı var (https://www.g2.com/products/certificial); RiskPartner, COI Pro, CTrax, SmartCompliance da mevcut (Capterra/Software Advice kayıtları). |
+| farklılaşma | 3 | "Ödeme anında belge kontrolü" somut bir fark; ancak ücretsiz katmanlı rakip temel ihtiyacı karşılıyor. |
+| dağıtım | 3 | BiggerPockets ve müteahhit toplulukları; müteahhit tarafı çevrimiçi erişimde zayıf. |
+| yapılabilirlik | 4 | Belge kaydı + bitiş tarihi + hatırlatma kolay; PDF'ten otomatik tarih okuma OCR/ücretli API isteyebilir, kapsam dışı bırakılabilir. |
+
+**Ortalama:** 3.00 — **Karar:** kaldı

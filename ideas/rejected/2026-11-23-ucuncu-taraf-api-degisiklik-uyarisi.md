@@ -3,6 +3,7 @@ slug: ucuncu-taraf-api-degisiklik-uyarisi
 found: 2026-11-23
 category: developer-tools
 source: auto
+score: 2.83
 ---
 # Kullanılan üçüncü taraf API'lerin sessizce değişmesini fark etme
 
@@ -21,3 +22,15 @@ Birkaç ödeme, kargo, CRM ya da veri API'sine bağlı çalışan 1–20 kişili
 - Canlı yanıt izleyen sapma araçları — https://dev.to/flarecanary/api-schema-drift-detection-tools-compared-2026-1ib4 — makaleye göre ücretsiz katmanlar (3–25 uç nokta) ve $12–$749/ay planlar; pazar kalabalık, farklılaşma gerekli (ör. eklenen/kaldırılan alan ayrımı, gürültü azaltma).
 - API dokümantasyon/değişiklik platformları — aynı kaynağa göre $50–$250/ay — çoğu OpenAPI dosyası gerektiriyor; canlı yanıtı izlemiyor.
 - Açık kaynak spec karşılaştırıcılar — ücretsiz — yalnızca yayımlanmış spec'i karşılaştırıyor, kendin kurup işletmen gerekiyor.
+
+## Değerlendirme (2026-11-23)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR developer-tools: 108/1776, oran %6.1 (orta-zayıf; pipeline/logs/2026-11-23-trustmrr.md). Dosyada 2 güncel HN yorumu. |
+| büyüme | 3 | 2026 tarihli bir karşılaştırma en az 10 araç sayıyor (https://dev.to/flarecanary/api-schema-drift-detection-tools-compared-2026-1ib4; taraflı kaynak); yeni oyuncu girişi var, sayısal büyüme verisi yok. |
+| rekabet | 1 | Aynı kaynağa göre ücretsiz katmanlar ve $12–$749/ay planlarla kalabalık bir pazar. |
+| farklılaşma | 2 | Önerilen farklar (eklenen/kaldırılan alan ayrımı, gürültü azaltma) rakiplerde de bulunan özellikler; somut bir boşluk gösterilmedi. |
+| dağıtım | 4 | Geliştiricilere HN, dev.to ve açık kaynak kanallarıyla ulaşmak kolay. |
+| yapılabilirlik | 4 | Zamanlanmış istek + JSON şema çıkarımı + fark raporu 10 günde yapılabilir. |
+
+**Ortalama:** 2.83 — **Karar:** kaldı
