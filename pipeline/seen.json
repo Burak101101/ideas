@@ -19,6 +19,26 @@
       "slug": "blog-backlink-uyarisi",
       "summary": "Blog yazarları yazıları başka sitelerden linklenip trafik aldığında bunu ve kaynağını zamanında öğrenemiyor.",
       "date": "2026-11-22"
+    },
+    {
+      "slug": "tedarikci-sigorta-belgesi-takibi",
+      "summary": "Küçük ev sahipleri ve müteahhitler usta/taşeron sigorta belgelerinin süresinin dolduğunu ancak bir hasar talebi çıkınca fark ediyor.",
+      "date": "2026-11-23"
+    },
+    {
+      "slug": "depozito-iade-hesaplama",
+      "summary": "Az daireli ev sahipleri kiracı çıkışında depozito kesinti/iade hesabını tablolarla, hataya açık biçimde yapıyor ve yasal itemize liste süresini kaçırabiliyor.",
+      "date": "2026-11-23"
+    },
+    {
+      "slug": "yuklenici-vergi-formu-toplama",
+      "summary": "Küçük işletmeler ve ev sahipleri ustalara ödeme öncesi W-9 almadığı için Ocak'ta 1099 için aylar önce ödedikleri kişileri kovalıyor.",
+      "date": "2026-11-23"
+    },
+    {
+      "slug": "ucuncu-taraf-api-degisiklik-uyarisi",
+      "summary": "Küçük yazılım ekipleri kullandıkları dış API'lerin sessiz yanıt yapısı değişikliklerini ancak üretimde bir şey bozulunca öğreniyor.",
+      "date": "2026-11-23"
     }
   ]
 }
