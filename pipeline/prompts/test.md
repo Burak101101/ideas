@@ -43,10 +43,10 @@
 ## Karar
 in-progress | ready | ready-with-issues
 ```
-Kritik = bir çekirdek özellik çalışmıyor, build/test kırık, veri kaybı ya da güvenlik açığı. Önemli = özellik çalışıyor ama kullanıcıyı ciddi şekilde zorluyor. Küçük = kozmetik.
+Kritik = bir çekirdek özellik çalışmıyor, build/test kırık, veri kaybı ya da **her türlü güvenlik sorunu** (ör. yapıştırılan/girilen içerikle çıktıya HTML/JS sızması, XSS, token sızıntısı, yetkisiz erişim) — güvenlikle ilgili bir bulgu asla Önemli ya da Küçük olarak yazılmaz. Önemli = özellik çalışıyor ama kullanıcıyı ciddi şekilde zorluyor. Küçük = kozmetik.
 
 ## 4. Karar
-- **ready:** tüm kabul kriterleri ✅, build + tüm testler geçiyor, hiç Kritik yok.
+- **ready:** tüm kabul kriterleri ✅, build + tüm testler geçiyor, **açık Kritik ve açık Önemli madde yok** (bu review'da ya da önceki review'lardan kalan). Yalnızca Küçük maddeler kalabilir.
 - **ready-with-issues:** ready değil ve (`day` ≥ 10 **veya** `started`'dan bu yana ≥ 14 takvim günü geçmiş — geliştirici günlerce çalışamazsa hat tıkanmasın). Kalan sorunlar review'da listelenir.
 - Aksi hâlde **in-progress**.
 

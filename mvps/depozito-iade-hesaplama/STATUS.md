@@ -1,5 +1,5 @@
 ---
-status: ready
+status: in-progress
 day: 1
 ---
 ## Son oturum (2026-11-23)
@@ -20,3 +20,6 @@ day: 1
 ## Bilinen sorunlar
 - Arayüz etiketleri İngilizce: "Overdue" = süre geçti, "Due soon" = yaklaşıyor.
 - Formdaki kaydedilmemiş değişiklikler yenilemede kaybolur.
+
+## Yeniden açılış (2026-11-24)
+`ready` kuralı sıkılaştırıldığı için yeniden açıldı ve kuyruğa (priority 1) geri kondu. Sıra gelince proje yeniden kurulmaz; `reviews/2026-11-23.md`'deki **Ö1** (negatif tutarlar) ve **Ö2** (kaydedilmemiş değişiklik kaybı) önce düzeltilir.

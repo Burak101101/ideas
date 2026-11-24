@@ -15,6 +15,8 @@
 2. `git mv` ile `ideas/in-progress/`'e taşı. `active.json`: `slug`, `started` = bugün, `day` = 0.
 3. `mvps/<slug>/` altında projeyi kur, aynı oturumda çekirdek özelliklere başla. Bu oturum için iş listen MVP Kapsamı'dır.
 
+**Yeniden açılan MVP:** `mvps/<slug>/` zaten varsa (kapatılıp kuyruğa geri konmuş bir MVP) projeyi yeniden **kurma**. `active.json`'da `day` = `STATUS.md`'deki `day` olsun, sonra A) adımlarıyla devam et: en yeni review'daki açık Kritik ve Önemli maddeler önce gelir.
+
 ## 2. Teknik kurallar
 - Varsayılan stack: **Next.js (App Router) + TypeScript + Tailwind + SQLite (Prisma)**. Fikir başka bir şey gerektiriyorsa değiştir ve README'de gerekçesini yaz.
 - Harici ücretli API ya da gizli anahtar gerektiren hiçbir şey zorunlu olmasın; gerekiyorsa sahte (mock) adaptör + README'de açıklama.
