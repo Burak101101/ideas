@@ -3,6 +3,7 @@ slug: k1-formu-veri-cikarma
 found: 2026-11-24
 category: fintech
 source: auto
+score: 2.67
 ---
 # Ortaklık K-1 formlarından vergi beyannamesi için veri çıkarma
 
@@ -23,3 +24,14 @@ Yatırımcı müşterileri (özel fon, gayrimenkul ortaklıkları) olan 1–20 k
 - Tam kapsamlı belge hazırlama paketleri — fiyat: teklif usulü (arama özeti) — sadece çıkarma isteyen küçük bürolar için pahalı.
 - Genel belge çıkarma araçları — ücretsiz katman var (lido.app karşılaştırması, doğrulanmadı) — K-1'e özgü alan eşleme ve ek tablolar (supplemental statements) için ayar istiyor.
 
+## Değerlendirme (2026-11-24)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR fintech: 29/506, oran %5.7 (orta-zayıf; pipeline/logs/2026-11-24-trustmrr.md). Dosyada tek bağımsız kanıt (Ask HN 49879648); diğerleri satıcı içeriği ve doğrulanmadı. |
+| büyüme | 4 | Büyük satıcı 2026'da K-1 otomasyonu üzerine çok sayıda içerik yayınlıyor (https://www.wolterskluwer.com/en/expert-insights/before-and-after-k-1-automation, 2026-08-17); K-1 paketlerinin hacim ve ayrıntı olarak büyüdüğü iddiası (dosyadaki WK kaynağı, doğrulanmadı). |
+| rekabet | 2 | Wolters Kluwer CCH Axcess Scan ek tablolar dahil K-1 çıkarıyor (https://www.wolterskluwer.com/en-gb/expert-insights/how-to-eliminate-manual-k-1-data-extraction-in-your-tax-workflow), Thomson Reuters ve K1x (https://k1x.io/?p=12158) küçük firmalara da hitap ediyor; genel belge çıkarma araçları da var. |
+| farklılaşma | 3 | Küçük büroya teklifsiz, self-servis fiyat somut bir boşluk; ancak alıcılar verinin beyanname motorlarına (UltraTax, Lacerte vb.) aktarılmasını bekliyor (k1x.io rehberi), bunu biz sağlayamayız. |
+| dağıtım | 2 | Muhasebe büroları muhafazakâr ve mevsimsel alıcı; kanal büyük ölçüde mevcut yazılım ekosistemlerinin elinde. |
+| yapılabilirlik | 2 | Farklı düzenlerdeki taranmış K-1 PDF'leri ve ek tablolardan güvenilir alan çıkarma, ücretli OCR/LLM API'si olmadan ~10 günde doğruluk sorumluluğu taşıyan bir çekirdek olarak zor. |
+
+**Ortalama:** 2.67 — **Karar:** kaldı

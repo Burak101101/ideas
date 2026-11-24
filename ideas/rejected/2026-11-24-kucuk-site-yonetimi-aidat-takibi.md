@@ -3,6 +3,7 @@ slug: kucuk-site-yonetimi-aidat-takibi
 found: 2026-11-24
 category: real-estate
 source: auto
+score: 2.83
 ---
 # Gönüllü yönetilen küçük site/HOA'larda aidat ve yedek fon takibi
 
@@ -22,3 +23,14 @@ ABD'de ve benzeri ülkelerde 5–50 haneli, kendi kendini yöneten konut birlikl
 - Genel küçük işletme muhasebe programları — fiyat: veri yok — HOA için hesap planı yok, aidat borcu takibi ayrı tablo gerektiriyor (yukarıdaki kanıtlar).
 - Hazır tablo şablonları — arama özetine göre ~$5 (Etsy ilanı, doğrulanmadı) — hatırlatma, makbuz, devir teslim yok; sayman değişince bilgi kayboluyor.
 
+## Değerlendirme (2026-11-24)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR real-estate: 19/200, oran %9.5 (orta; pipeline/logs/2026-11-24-trustmrr.md). Kanıtlar gerçek ama biri 2021 tarihli, biri doğrulanmadı. |
+| büyüme | 2 | Kendi kendini yöneten küçük birlik segmentinde büyüme verisi yok. |
+| rekabet | 2 | Kendi kendini yöneten birliklere özel çok sayıda araç: KindHOA $0 planı (https://www.getapp.com/all-software/a/kindhoa/), HOA Ally ücretsiz (https://slashdot.org/software/p/HOA-Ally/), Bitrix24 ücretsiz HOA sayfası (https://www.bitrix24.com/uses/free-hoa-management-software-online.php?moved_from=IN), PayHOA, HOA Buddy (https://www.capterra.com/p/10044832/HOA-Buddy/), Landlord Studio (https://www.landlordstudio.com/property-type/hoa). |
+| farklılaşma | 2 | "Kim borçlu + yedek fon ayrımı + devir teslim" önerisi ücretsiz planlı araçlarda büyük ölçüde mevcut (yukarıdaki kaynaklar). |
+| dağıtım | 3 | SEO ve HOA toplulukları üzerinden ulaşılabilir, ancak hedef dağınık ve ücretsiz rakipler arama sonuçlarını tutuyor. |
+| yapılabilirlik | 5 | Hane listesi, aidat kaydı, borç raporu ve fon ayrımı basit CRUD; harici API gerekmez. |
+
+**Ortalama:** 2.83 — **Karar:** kaldı
