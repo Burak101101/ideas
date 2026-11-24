@@ -1,0 +1,18 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: #3b2a1a; background: #fffaf0; }
+a { color: #9a3412; }
+.ust { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid #f1e3c8; }
+.logo { font-weight: bold; font-size: 1.3rem; text-decoration: none; }
+.ust nav a { margin-left: 16px; }
+.kahraman { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: center; padding: 48px 24px; }
+.kahraman h1 { font-size: 2.6rem; margin: 12px 0; }
+.kahraman-gorsel { width: 100%; max-width: 360px; justify-self: center; }
+.dugme { display: inline-block; padding: 10px 18px; background: #9a3412; color: #fff; border-radius: 6px; text-decoration: none; }
+.urunler, .saatler { padding: 24px; }
+.kartlar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.kart { background: #fff; border: 1px solid #f1e3c8; border-radius: 10px; padding: 16px; }
+.kart img { width: 100%; height: 120px; object-fit: contain; }
+.fiyat { font-weight: bold; font-size: 1.2rem; }
+.alt { padding: 24px; background: #3b2a1a; color: #fde68a; }
+.alt a { color: #fde68a; }
+@media (max-width: 640px) { .kahraman { grid-template-columns: 1fr; } }
