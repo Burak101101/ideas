@@ -39,6 +39,21 @@
       "slug": "ucuncu-taraf-api-degisiklik-uyarisi",
       "summary": "Küçük yazılım ekipleri kullandıkları dış API'lerin sessiz yanıt yapısı değişikliklerini ancak üretimde bir şey bozulunca öğreniyor.",
       "date": "2026-11-23"
+    },
+    {
+      "slug": "statik-site-icerik-duzenleme",
+      "summary": "Küçük işletmeler için kurulan statik sitelerin sahipleri Git bilmediğinden basit metin/görsel değişiklikleri için her seferinde geliştiriciye dönüyor.",
+      "date": "2026-11-24"
+    },
+    {
+      "slug": "kucuk-site-yonetimi-aidat-takibi",
+      "summary": "Gönüllü yönetilen 5–50 haneli konut birliklerinin saymanları aidat borcu ve yedek fonu genel muhasebe programı ile ayrı tablolar arasında takip ediyor.",
+      "date": "2026-11-24"
+    },
+    {
+      "slug": "k1-formu-veri-cikarma",
+      "summary": "Küçük ABD vergi büroları yatırımcı müşterilerinin onlarca K-1 formunu beyanname yazılımına elle giriyor.",
+      "date": "2026-11-24"
     }
   ]
 }
