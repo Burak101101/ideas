@@ -22,4 +22,4 @@ day: 1
 - Formdaki kaydedilmemiş değişiklikler yenilemede kaybolur.
 
 ## Yeniden açılış (2026-11-24)
-`ready` kuralı sıkılaştırıldığı için yeniden açıldı ve kuyruğa (priority 1) geri kondu. Sıra gelince proje yeniden kurulmaz; `reviews/2026-11-23.md`'deki **Ö1** (negatif tutarlar) ve **Ö2** (kaydedilmemiş değişiklik kaybı) önce düzeltilir.
+`ready` kuralı sıkılaştırıldığı için yeniden açıldı ve kuyruğa (priority 1) geri kondu. Sıra gelince proje yeniden kurulmaz; `reviews/2026-11-23.md`'deki **Ö1** (negatif tutarlar) ve **Ö2** (kaydedilmemiş değişiklik kaybı) önce düzeltilir. Yeni kullanıcı yolculuğu kuralına göre **Y7** (mektupta ev sahibi adı/adresi ve kiracının yönlendirme adresi yok, mektup gönderilemez) de Önemli sayılır.

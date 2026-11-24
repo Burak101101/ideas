@@ -8,7 +8,7 @@
 **A) `slug` dolu (devam):**
 1. `mvps/<slug>/reviews/` içindeki **en yeni** review'ı baştan sona oku; bugünkü iş listen buradan başlar. Hiç review yoksa (tester çalışmamış) MVP Kapsamı ve STATUS.md'den devam et.
 2. `mvps/<slug>/STATUS.md`'deki "Sıradaki işler"i ve `ideas/in-progress/<dosya>`daki MVP Kapsamı'nı oku.
-3. Sıra: review'daki **Kritik** maddeler → **Önemli** maddeler → kapsamdaki eksik çekirdek özellikler → Küçük maddeler.
+3. Sıra: review'daki **Kritik** maddeler → **Önemli** maddeler → kapsamdaki eksik çekirdek özellikler → Küçük maddeler. Review'daki "Kullanıcı yolculuğu" bölümünden gelen Önemli maddeler MVP Kapsamı'nda yazmasa da yapılır ("Kapsam dışı" listesine aykırı olmadıkça).
 
 **B) `slug` null (yeni MVP):**
 1. `ideas/approved/` içinde `priority` numarası **en küçük** olan dosyayı al. Kuyruk boşsa: hiçbir şey yapma (CLAUDE.md kural 3).

@@ -11,8 +11,9 @@
 `mvps/<slug>/` içinde, README'deki adımlarla:
 1. `cp .env.example .env`, `npm ci`, migrasyon, `npm run build`, `npm test`, `npm run test:e2e` — her birinin sonucunu not et.
 2. Uygulamayı başlat (`npm run start` ya da README'deki komut) ve **Playwright ile kullanıcı gibi** kullan: `ideas/in-progress/<dosya>`daki MVP Kapsamı'ndaki **her kabul kriterini** tek tek dene. Önemli ekranların ekran görüntüsünü `mvps/<slug>/reviews/shots/YYYY-MM-DD/` altına kaydet (deviceScaleFactor 1). `npx playwright install` çalıştırma; Chromium `/opt/pw-browsers/chromium`'da kurulu.
-3. Ayrıca dene: boş girdiler, çok uzun girdiler, sayfayı yenileme, geri tuşu, mobil genişlik (375px), hata durumları.
-4. Geliştiricinin testlerine de bak: kabul kriterlerini gerçekten doğruluyorlar mı, yoksa her zaman geçen boş testler mi?
+3. **Kullanıcı yolculuğu:** Fikir dosyasındaki "Sorun", "Hedef kullanıcı" ve "Mevcut çözümler ve eksikleri" bölümlerini oku. Kendini hedef kullanıcının yerine koy ve aracı kullanma **amacını** tek cümleyle yaz (ör. "ev sahibi, yasal süre dolmadan kiracıya gönderebileceği itemize kesinti mektubunu hazırlar"). Bu işi uygulamada gerçekçi verilerle baştan sona yap; kabul kriterlerinin kapsamadığı ama işi bitirmek için gereken adımlara özellikle bak (ör. mektup gerçekten gönderilebilir mi: taraflar, adresler, tarih var mı?). Sonuç: kullanıcı işini bitirebiliyor mu, nerede takılıyor? Sınır: "Kapsam dışı" listesindeki bir şeyi eksik sayma; yolculuk bu sınırlar içinde tamamlanabilmeli. Yalnızca "olsa güzel olur" türü eksikler Küçük'tür.
+4. Ayrıca dene: boş girdiler, çok uzun girdiler, sayfayı yenileme, geri tuşu, mobil genişlik (375px), hata durumları.
+5. Geliştiricinin testlerine de bak: kabul kriterlerini gerçekten doğruluyorlar mı, yoksa her zaman geçen boş testler mi?
 
 ## 3. Review yaz — `mvps/<slug>/reviews/YYYY-MM-DD.md`
 ```markdown
@@ -29,6 +30,13 @@
 |---|---|---|---|
 | 1 | ... | ✅ / ❌ / ⚠️ | |
 
+## Kullanıcı yolculuğu
+**Amaç:** <hedef kullanıcının bu araçla bitirmek istediği iş, tek cümle>
+| Adım | Sonuç | Not |
+|---|---|---|
+| ... | ✅ / ❌ / ⚠️ | |
+**Sonuç:** iş baştan sona bitirilebiliyor / şu noktada takılıyor: ...
+
 ## Bulgular
 ### Kritik
 - **K1** — <başlık>. Tekrar üretme: 1) ... 2) ... Beklenen: ... Gerçekleşen: ... (dosya:satır varsa)
@@ -43,10 +51,10 @@
 ## Karar
 in-progress | ready | ready-with-issues
 ```
-Kritik = bir çekirdek özellik çalışmıyor, build/test kırık, veri kaybı ya da **her türlü güvenlik sorunu** (ör. yapıştırılan/girilen içerikle çıktıya HTML/JS sızması, XSS, token sızıntısı, yetkisiz erişim) — güvenlikle ilgili bir bulgu asla Önemli ya da Küçük olarak yazılmaz. Önemli = özellik çalışıyor ama kullanıcıyı ciddi şekilde zorluyor. Küçük = kozmetik.
+Kritik = bir çekirdek özellik çalışmıyor, build/test kırık, veri kaybı ya da **her türlü güvenlik sorunu** (ör. yapıştırılan/girilen içerikle çıktıya HTML/JS sızması, XSS, token sızıntısı, yetkisiz erişim) — güvenlikle ilgili bir bulgu asla Önemli ya da Küçük olarak yazılmaz. Önemli = özellik çalışıyor ama kullanıcıyı ciddi şekilde zorluyor **ya da kullanıcı yolculuğunu engelleyen bir eksik var** (kabul kriterlerinde yazmasa bile; ör. gönderilmek üzere üretilen bir mektupta alıcı/gönderen bilgisi yok). Küçük = kozmetik.
 
 ## 4. Karar
-- **ready:** tüm kabul kriterleri ✅, build + tüm testler geçiyor, **açık Kritik ve açık Önemli madde yok** (bu review'da ya da önceki review'lardan kalan). Yalnızca Küçük maddeler kalabilir.
+- **ready:** tüm kabul kriterleri ✅, build + tüm testler geçiyor, **kullanıcı yolculuğu baştan sona bitirilebiliyor**, **açık Kritik ve açık Önemli madde yok** (bu review'da ya da önceki review'lardan kalan). Yalnızca Küçük maddeler kalabilir.
 - **ready-with-issues:** ready değil ve (`day` ≥ 10 **veya** `started`'dan bu yana ≥ 14 takvim günü geçmiş — geliştirici günlerce çalışamazsa hat tıkanmasın). Kalan sorunlar review'da listelenir.
 - Aksi hâlde **in-progress**.
 
