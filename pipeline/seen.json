@@ -54,6 +54,16 @@
       "slug": "k1-formu-veri-cikarma",
       "summary": "Küçük ABD vergi büroları yatırımcı müşterilerinin onlarca K-1 formunu beyanname yazılımına elle giriyor.",
       "date": "2026-11-24"
+    },
+    {
+      "slug": "hibe-raporlama-takvimi",
+      "summary": "Birkaç hibe alan küçük kâr amacı gütmeyen kuruluşlar her fonun farklı rapor tarihlerini ve bütçe gerçekleşmelerini dağınık tablolarda tutuyor ve rapor tarihlerini kaçırıyor.",
+      "date": "2026-11-25"
+    },
+    {
+      "slug": "sahada-degisiklik-onayi",
+      "summary": "Küçük tadilat müteahhitleri sözlü istenen ek işleri sahada yazılı/imzalı onaya bağlamadığı için bu ücreti tahsil edemiyor.",
+      "date": "2026-11-25"
     }
   ]
 }
