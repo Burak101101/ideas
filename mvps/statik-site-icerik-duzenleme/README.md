@@ -6,12 +6,14 @@ Küçük işletmelere düz HTML/CSS site kuran geliştiriciler ve müşterileri 
 
 ## Ne yapıyor
 1. **Aç:** `.html` dosyası yüklenir, "Örnek siteyi aç" ile hazır örnek açılır ya da GitHub'dan (token + repo + dal + yol) çekilir. Hiçbir yapılandırma ya da etiketleme gerekmez: başlıklar, paragraflar, liste öğeleri, bağlantı/düğme metinleri, yalnızca metin içeren `div`/`span`'ler ve `src`'si olan görseller otomatik bulunur (`lib/html.ts`). Önizlemede üzerine gelince kesikli turuncu çerçeve çıkar.
-2. **Düzenle:** Metne tıklayınca yerinde düzenlenir (Enter/Esc bitirir). Yalnızca düz metin içeren öğeler `plaintext-only` modda düzenlenir; `<strong>`, `<a>` gibi satır içi etiket barındıran paragraflarda bu etiketler korunur. Görsele tıklayınca dosya seçici açılır; seçilen görsel önizlemede hemen değişir.
+2. **Düzenle:** Metne tıklayınca yerinde düzenlenir (Enter kaydeder, Esc o düzenlemeden vazgeçer). Yalnızca düz metin içeren öğeler `plaintext-only` modda düzenlenir; `<strong>`, `<a>` gibi satır içi etiket barındıran paragraflarda bu etiketler korunur. Yapıştırma ve sürükle-bırak her zaman **düz metin** ekler. Ayrıca karışık öğelerin içeriği kaydedilmeden önce temizlenir (`lib/sanitize.ts`): yalnızca orijinalde aynı özniteliklerle bulunan etiketler ve özniteliksiz `b/strong/i/em/u/s/small/sub/sup/mark/br` kalır; `img`, `script`, `style`, `iframe`, `svg` vb. içerikleriyle silinir, diğer etiketler (stilli `span`, `font`, yeni `href`'li `a`, olay öznitelikleri) açılıp yalnızca metinleri bırakılır. Görsele tıklayınca dosya seçici açılır; seçilen görsel önizlemede hemen değişir. Görsel olmayan dosyada hata, 1 MB üstü görselde boyut uyarısı gösterilir.
 3. **Değişiklik listesi:** Her öğe için "eski → yeni" (görsellerde küçük resim + dosya adı) ve "Geri al".
 4. **İndir:** Çıktı, orijinal kaynağa yalnızca değişen aralıklar eklenerek üretilir (tüm belge yeniden serileştirilmez). Doctype, boşluklar, yorumlar, `<style>`, `<link>`, öznitelik tırnakları ve düzenlenmeyen her şey bayt bayt aynı kalır. E2E testi bunu tam karşılaştırmayla doğrular.
 5. **GitHub'a commit:** Contents API ile (`GET` → mevcut `sha`, sonra `PUT`). Token yalnızca React durumunda (sekme belleği) tutulur; `localStorage`'a yazılmaz, istekler doğrudan `api.github.com`'a gider — bu uygulamanın sunucusu yok. 401/403/404/409/422 ve ağ hataları Türkçe, anlaşılır mesajlara çevrilir.
 
 "Site adresi" alanı yalnızca önizleme içindir: göreli görsel/CSS yollarının yüklenmesi için önizlemeye `<base href>` ekler (indirilen dosyaya eklenmez). GitHub'dan açılan dosyada otomatik olarak `raw.githubusercontent.com` klasörü doldurulur (görseller görünür; raw sunucusu CSS'i `text/plain` verdiği için harici CSS önizlemede uygulanmayabilir).
+
+**Kaydedilmemiş değişiklikler:** Son indirme/commit'ten sonra değişiklik varsa yan panelde belirtilir; sekmeyi kapatma/yenileme tarayıcı uyarısı (`beforeunload`), başka dosya açma (yükleme, örnek, GitHub'dan aç) ise onay sorusu çıkarır.
 
 ## Teknik notlar
 - Önizleme `srcdoc` + `sandbox="allow-same-origin"` iframe'i: sitenin kendi script'leri çalışmaz, bağlantı/form tıklamaları engellenir; düzenleyici iframe DOM'una üst sayfadan erişir.
@@ -37,6 +39,7 @@ Yok. GitHub token'ını kullanıcı arayüzde girer (ince ayarlı token, yalnız
 ## Eksikler
 - Değiştirilen görseller repoya ayrı dosya olarak yüklenmiyor, HTML'e `data:` URI olarak gömülüyor (büyük görsellerde dosya şişer).
 - `<picture><source>` içindeki alternatif kaynaklar güncellenmiyor; `alt` metni ve bağlantı adresleri (`href`) düzenlenemiyor.
-- Metin ve satır içi etiket karışık öğelerde (ör. `<p>… <a>…</a> …</p>`) düzenlenen öğenin iç HTML'i tarayıcı serileştirmesiyle yazılır (yalnızca o öğe; öznitelik tırnakları normalleşebilir).
+- Metin ve satır içi etiket karışık öğelerde (ör. `<p>… <a>…</a> …</p>`) düzenlenen öğenin iç HTML'i (temizlendikten sonra) tarayıcı serileştirmesiyle yazılır (yalnızca o öğe; öznitelik tırnakları normalleşebilir). Böyle bir paragraftaki bağlantı metni ayrı öğe olarak değil, paragrafla birlikte düzenlenir.
+- Tek satırlık öğelerde satır sonu girilemez (Enter ve Shift+Enter düzenlemeyi bitirir).
 - Kapanmamış `<p>`/`<li>` gibi isteğe bağlı bitiş etiketleri desteklenir, ama tarayıcının tüm hata düzeltme kuralları taklit edilmez.
 - Tek dosya; çok sayfalı site gezinme yok (kapsam dışı).

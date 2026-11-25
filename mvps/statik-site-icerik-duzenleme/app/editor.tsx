@@ -1,13 +1,16 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { applyEdits, buildPreview, escapeText, scanEditable, type Region } from "@/lib/html";
-import { fileLabel, rawGithubBase, removeChange, toEdits, upsertChange, type Change } from "@/lib/changes";
+import { changesKey, fileLabel, imageCheck, rawGithubBase, removeChange, toEdits, upsertChange, type Change } from "@/lib/changes";
+import { sanitizeInline } from "@/lib/sanitize";
 import { commitFile, getFile, GitHubError, missingFields } from "@/lib/github";
 
 type Initial = { html: string; text: string; src: string | null; srcset: string | null; resolvedSrc: string };
 type Doc = { source: string; fileName: string; baseHref: string };
 type Notice = { tone: "error" | "ok"; text: string; link?: string } | null;
+
+const LEAVE_PROMPT = "Kaydedilmemiş değişiklikleriniz var (indirilmedi ya da commit edilmedi). Yine de devam edilsin mi? Değişiklikler kaybolur.";
 
 const TAG_NAMES: Record<string, string> = {
   h1: "Başlık",
@@ -28,6 +31,9 @@ export default function Editor() {
   const [baseInput, setBaseInput] = useState("");
   const [changes, setChanges] = useState<Change[]>([]);
   const [loadError, setLoadError] = useState("");
+  const [imageNotice, setImageNotice] = useState<Notice>(null);
+  // Fingerprint of the edits at the last download/commit; "" = fresh document.
+  const [savedKey, setSavedKey] = useState("");
   // Bumped on every open so the iframe remounts even if the same file is opened twice.
   const [openCount, setOpenCount] = useState(0);
 
@@ -41,6 +47,22 @@ export default function Editor() {
   const initial = useRef<Map<number, Initial>>(new Map());
   const changesRef = useRef<Change[]>([]);
   changesRef.current = changes;
+  const dirty = changesKey(changes) !== savedKey;
+
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+
+  const dirtyRef = useRef(false);
+  dirtyRef.current = dirty;
+  /** Ask before throwing away unsaved edits. */
+  const okToDiscard = () => !dirtyRef.current || window.confirm(LEAVE_PROMPT);
 
   const regions = useMemo<Region[]>(() => (doc ? scanEditable(doc.source) : []), [doc?.source]); // eslint-disable-line react-hooks/exhaustive-deps
   const regionById = useMemo(() => new Map(regions.map((r) => [r.id, r])), [regions]);
@@ -49,6 +71,8 @@ export default function Editor() {
   const open = useCallback((source: string, fileName: string, baseHref: string) => {
     initial.current = new Map();
     setChanges([]);
+    setSavedKey("");
+    setImageNotice(null);
     setGhNotice(null);
     setLoadError("");
     setBaseInput(baseHref);
@@ -66,12 +90,14 @@ export default function Editor() {
       const init = initial.current.get(id);
       if (!region || region.kind !== "text" || !init) return;
       const text = el.textContent ?? "";
-      const unchanged = region.pure ? text === init.text : el.innerHTML === init.html;
+      // Mixed elements: only the original inline tags (and bare b/i/em…) survive; pasted markup never reaches the site.
+      const html = region.pure ? "" : sanitizeInline(el.innerHTML, init.html);
+      const unchanged = region.pure ? text === init.text : html === init.html;
       if (unchanged) {
         setChanges((list) => removeChange(list, id));
         return;
       }
-      const newRaw = region.pure ? escapeText(text) : el.innerHTML;
+      const newRaw = region.pure ? escapeText(text) : html;
       setChanges((list) =>
         upsertChange(list, { id, kind: "text", tag: region.tag, oldLabel: init.text.trim(), newLabel: text.trim(), newRaw }),
       );
@@ -137,22 +163,57 @@ export default function Editor() {
           sel.selectAllChildren(el);
           sel.collapseToEnd();
         }
+        const before = el.innerHTML;
         const onInput = () => recordText(el);
         const onKey = (ev: KeyboardEvent) => {
-          if (ev.key === "Enter" || ev.key === "Escape") {
+          if (ev.key === "Escape") {
+            // Esc = cancel this editing session
+            ev.preventDefault();
+            el.innerHTML = before;
+            el.blur();
+          } else if (ev.key === "Enter") {
             ev.preventDefault();
             el.blur();
           }
         };
+        // Paste and drop insert plain text only, whatever the clipboard holds.
+        const insertPlain = (text: string) => {
+          const clean = text.replace(/\r\n?|\n/g, " ");
+          if (clean) d.execCommand("insertText", false, clean);
+        };
+        const onPaste = (ev: ClipboardEvent) => {
+          ev.preventDefault();
+          insertPlain(ev.clipboardData?.getData("text/plain") ?? "");
+        };
+        const onDrop = (ev: DragEvent) => {
+          ev.preventDefault();
+          const text = ev.dataTransfer?.getData("text/plain") ?? "";
+          const range = d.caretRangeFromPoint?.(ev.clientX, ev.clientY);
+          if (range && el.contains(range.startContainer)) {
+            const sel = d.getSelection();
+            sel?.removeAllRanges();
+            sel?.addRange(range);
+          }
+          insertPlain(text);
+        };
         const onBlur = () => {
+          if (!region.pure) {
+            const init = initial.current.get(id);
+            const clean = init ? sanitizeInline(el.innerHTML, init.html) : el.innerHTML;
+            if (clean !== el.innerHTML) el.innerHTML = clean;
+          }
           recordText(el);
           stopEditing(el);
           el.removeEventListener("input", onInput);
           el.removeEventListener("keydown", onKey);
+          el.removeEventListener("paste", onPaste);
+          el.removeEventListener("drop", onDrop);
           el.removeEventListener("blur", onBlur);
         };
         el.addEventListener("input", onInput);
         el.addEventListener("keydown", onKey);
+        el.addEventListener("paste", onPaste);
+        el.addEventListener("drop", onDrop);
         el.addEventListener("blur", onBlur);
       },
       true,
@@ -165,7 +226,9 @@ export default function Editor() {
     pendingImage.current = null;
     if (imageInput.current) imageInput.current.value = "";
     if (id === null || !file) return;
-    if (!file.type.startsWith("image/")) return;
+    const check = imageCheck(file);
+    setImageNotice(check.message ? { tone: check.ok ? "ok" : "error", text: check.message } : null);
+    if (!check.ok) return;
     const reader = new FileReader();
     reader.onload = () => {
       const dataUrl = String(reader.result);
@@ -219,9 +282,11 @@ export default function Editor() {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setSavedKey(changesKey(changes));
   };
 
   const openSample = async () => {
+    if (!okToDiscard()) return;
     try {
       const r = await fetch("/ornek/index.html");
       if (!r.ok) throw new Error();
@@ -237,6 +302,7 @@ export default function Editor() {
       setLoadError("Lütfen bir .html dosyası seçin.");
       return;
     }
+    if (!okToDiscard()) return;
     open(await file.text(), file.name, "");
   };
 
@@ -245,6 +311,7 @@ export default function Editor() {
   const openFromGitHub = async () => {
     const missing = missingFields(target);
     if (missing.length) return setGhNotice({ tone: "error", text: `Eksik alanlar: ${missing.join(", ")}.` });
+    if (!okToDiscard()) return;
     setGhBusy(true);
     setGhNotice(null);
     try {
@@ -269,7 +336,9 @@ export default function Editor() {
     setGhBusy(true);
     setGhNotice(null);
     try {
+      const key = changesKey(changes);
       const r = await commitFile(target, output(), gh.message.trim());
+      setSavedKey(key);
       setGhNotice({ tone: "ok", text: "Commit oluşturuldu.", link: r.url || undefined });
     } catch (e) {
       setGhNotice({ tone: "error", text: e instanceof GitHubError ? e.message : "Beklenmeyen bir hata oluştu." });
@@ -339,6 +408,15 @@ export default function Editor() {
         </p>
       )}
 
+      {imageNotice && (
+        <p
+          role={imageNotice.tone === "error" ? "alert" : "status"}
+          className={`mb-3 rounded-md px-3 py-2 text-sm ${imageNotice.tone === "error" ? "bg-red-50 text-red-800" : "bg-amber-50 text-amber-900"}`}
+        >
+          {imageNotice.text}
+        </p>
+      )}
+
       <input ref={imageInput} type="file" accept="image/*" className="sr-only" tabIndex={-1} aria-hidden data-testid="image-input" onChange={(e) => onImagePicked(e.target.files?.[0])} />
 
       <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
@@ -346,7 +424,7 @@ export default function Editor() {
           {doc ? (
             <>
               <p className="mb-2 text-sm text-stone-600">
-                <strong className="text-ink">{doc.fileName}</strong> · {textCount} metin, {imageCount} görsel düzenlenebilir. Metne tıklayıp yazın (Enter bitirir); görsele
+                <strong className="text-ink">{doc.fileName}</strong> · {textCount} metin, {imageCount} görsel düzenlenebilir. Metne tıklayıp yazın (Enter bitirir, Esc vazgeçer); görsele
                 tıklayıp yenisini seçin.
               </p>
               <iframe
@@ -374,6 +452,11 @@ export default function Editor() {
             <h2 className="mb-2 font-semibold">
               Değişiklikler <span className="text-stone-500">({changes.length})</span>
             </h2>
+            {changes.length > 0 && (
+              <p className={`mb-2 text-xs ${dirty ? "text-amber-800" : "text-moss"}`} data-testid="save-state">
+                {dirty ? "Kaydedilmemiş değişiklikler var — indirin ya da commit edin." : "Tüm değişiklikler kaydedildi (indirildi/commit edildi)."}
+              </p>
+            )}
             {changes.length === 0 ? (
               <p className="text-sm text-stone-500">Henüz değişiklik yok.</p>
             ) : (

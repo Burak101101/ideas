@@ -9,6 +9,7 @@
 
 type Attr = { name: string; wsStart: number; end: number; valueStart: number; valueEnd: number; quoted: boolean };
 
+export type HtmlNode = Node;
 type Node = {
   tag: string;
   start: number;
