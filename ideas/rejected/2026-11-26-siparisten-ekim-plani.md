@@ -3,6 +3,7 @@ slug: siparisten-ekim-plani
 found: 2026-11-26
 category: productivity
 source: auto
+score: 3.17
 ---
 # Mikro yeşillik üreticileri için siparişten geriye ekim planı
 
@@ -23,3 +24,15 @@ Restoranlara düzenli (haftalık sabit) sipariş veren küçük mikro yeşillik 
 - Elle hazırlanan tablolar (ürünler sütun, müşteriler satır) — siparişle eklenen tepsi arasında bağ yok; bir hücrenin üzerine yazılınca hata görünmüyor (yukarıdaki SE alıntısı).
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-26)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR `productivity`: 3797 toplam, 256 ≥$2K gelir, oran %6.7 (orta sinyal; `pipeline/logs/2026-11-26-trustmrr.md`). Kanıtlar somut ama az: biri 2019 tarihli ve eski (https://paperpot.co/crop_planning_microgreens/), diğer ikisi tek kişi/tek çiftlik (https://softwarerecs.stackexchange.com/questions/95595/offline-windows-ledger-for-a-one-person-microgreens-farm-trays-standing-order, https://www.hortidaily.com/article/9737096/if-you-burn-out-the-whole-system-collapses/). |
+| büyüme | 4 | Mikro yeşillik pazarı tahminleri 2025'te $1.9–3.4 milyar, çoğu %10–12 YBBO (https://www.imarcgroup.com/microgreens-market, https://www.researchandmarkets.com/reports/5744348/microgreens-market-report); raporlar arasında tutarsızlık var, düşük güvenli. |
+| rekabet | 2 | Mikro yeşilliğe özel ve tam olarak "siparişe göre ekim" yapan araçlar zaten var: SeedLeaf düzenli sipariş + sow-to-order iş akışı (https://seedleaf.freshdesk.com/support/solutions/articles/72000125703-using-your-task-lists-efficiently), Tend'in mikro yeşillik çözümü (https://www.tend.com/solutions/microgreens-management), hasat tarihinden geriye ekim tarihi hesaplayan iOS uygulaması (https://apps.apple.com/us/app/-/id1390978969), Notion tabanlı yönetici (https://www.notion.com/@microgreenmanager). |
+| farklılaşma | 2 | Önerilebilecek fark (siparişe bağlı tepsi, üzerine yazmayı engelleyen kayıt) mevcut sow-to-order araçlarının çekirdeğiyle örtüşüyor; somut bir eksik bulunamadı. |
+| dağıtım | 3 | Üretici toplulukları ve "microgreens planting schedule" SEO sorguları var; ancak kitle küçük ve rakipler aynı kanallarda. |
+| yapılabilirlik | 5 | Ürün büyüme süreleri + düzenli sipariş tablosundan geriye tarih hesabı; harici API yok, ~10 günde yapılabilir. |
+
+**Ortalama:** 3.17 — **Karar:** kaldı
