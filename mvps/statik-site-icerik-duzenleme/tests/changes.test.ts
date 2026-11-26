@@ -24,6 +24,10 @@ describe("changes", () => {
     ]);
   });
 
+  it("passes a changed alt text along with the image", () => {
+    expect(toEdits([{ ...b, newAlt: "Taze simit" }])).toEqual([{ id: 3, kind: "image", newSrc: "data:x", newAlt: "Taze simit" }]);
+  });
+
   it("labels files by their last path segment", () => {
     expect(fileLabel("gorseller/ekmek.svg?v=2")).toBe("ekmek.svg");
     expect(fileLabel("data:image/png;base64,AAAA")).toBe("gömülü görsel");
@@ -42,6 +46,10 @@ describe("changesKey", () => {
     expect(changesKey([])).toBe("");
     expect(changesKey([t(1, "x")])).not.toBe(changesKey([t(1, "y")]));
     expect(changesKey([t(1, "x"), t(2, "y")])).toBe(changesKey([t(2, "y"), t(1, "x")]));
+  });
+  it("alt metni değişince anahtar değişir", () => {
+    expect(changesKey([{ ...b, newAlt: "x" }])).not.toBe(changesKey([b]));
+    expect(changesKey([{ ...b, newAlt: "x" }])).not.toBe(changesKey([{ ...b, newAlt: "y" }]));
   });
   it("aynı içerikli yeni liste aynı anahtarı verir", () => {
     expect(changesKey([t(1, "x")])).toBe(changesKey([t(1, "x")]));

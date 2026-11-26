@@ -1,23 +1,23 @@
 ---
 status: in-progress
-day: 2
+day: 3
 ---
-## Son oturum (2026-11-25)
-- Build: geçti · Birim: 51/51 · E2E: 17/17
-- **K1 düzeltildi** (zengin yapıştırma): `paste` ve `drop` olayları yalnızca `text/plain` ekliyor (`insertText`). Ek savunma olarak karışık öğelerin iç HTML'i kayıttan önce ve düzenleme bitince `lib/sanitize.ts` ile temizleniyor: orijinalde aynı özniteliklerle bulunan etiketler + özniteliksiz biçim etiketleri kalır; `img/script/style/iframe/svg…` içerikleriyle silinir; stilli `span`, `font`, `javascript:` bağlantılar, `on*` öznitelikli öğeler açılır. 9 birim testi + 2 e2e (yapıştırma ve `insertHTML`) çıktıda `onerror`/`color:red` olmadığını doğruluyor.
-- **Ö2 düzeltildi**: son indirme/commit'ten sonra değişiklik varsa `beforeunload` uyarısı; yükleme / örnek açma / GitHub'dan açma öncesi `confirm`. Yan panelde "Kaydedilmemiş değişiklikler var" / "Tüm değişiklikler kaydedildi" durumu. 3 e2e testi.
-- **Y1 düzeltildi**: görsel olmayan dosyada açıklayıcı hata; 1 MB üstü görselde boyut uyarısı (STATUS'taki "büyük görsel uyarısı" işinin ilk adımı).
-- **Y2 düzeltildi**: Esc o düzenleme oturumundaki değişikliği geri alıp bitiriyor.
+## Son oturum (2026-11-26)
+- Build: geçti · Birim: 69/69 · E2E: 21/21
+- **Ö1 düzeltildi** (telefon fotoğrafı HTML'i şişiriyor): görseller sayfaya gömülmeden önce tarayıcıda canvas ile küçültülüyor (`lib/image.ts` saf plan + `lib/shrink.ts`). Uzun kenar ≤ 1600 px, JPEG → JPEG / diğerleri → WebP, kalite 0.82, EXIF yönü uygulanıyor; SVG/GIF'e dokunulmuyor, sonuç büyükse orijinal kalıyor. Araç çubuğunda "Büyük görselleri küçült" (varsayılan açık); bildirim önce/sonra boyutu ve piksel ölçüsünü yazıyor, değişiklik listesinde gömülen boyut görünüyor. 12 birim testi + 3 e2e: tarayıcıda üretilen ~4032×3024 gürültülü JPEG (> 2 MB) 1600×1200'e iniyor ve indirilen HTML 1.5 MB altında / fotoğrafın yarısından küçük; seçenek kapalıyken orijinal gömülüp uyarı çıkıyor; 1×1 PNG bayt bayt aynı kalıyor.
+- **Yeni: alt metni düzenleme** (Sıradaki işlerden): değiştirilen görselin değişiklik kartında "Görsel açıklaması" alanı; çıktıda mevcut `alt` değiştirilir ya da yoksa eklenir (kaynak koruyan splice, `lib/html.ts`), "Geri al" eski `alt`'a döner, görsel yeniden seçilince yazılan alt korunur. 6 birim + 1 e2e.
 
 ## Sıradaki işler
-- Değiştirilen görseli repoya ayrı dosya olarak yükleme seçeneği (Git Data API ile tek commit)
-- Görsel `alt` metni ve bağlantı `href` düzenleme (küçük bir yan panel)
-- Büyük görselleri yüklemeden önce tarayıcıda küçültme (şu an yalnızca uyarı)
-- Y3: paragraf içindeki bağlantı metnini ayrı öğe olarak düzenleme
-- Y4: çok satırlı öğelerde Shift+Enter ile `<br>` (şimdilik bilinçli olarak yok)
+- Değiştirilen görseli repoya ayrı dosya olarak yükleme seçeneği (Git Data API ile tek commit) — Ö1 küçültmeyle çözüldü, bu artık iyileştirme
+- Bağlantı `href` düzenleme (küçük bir yan panel); değiştirilmemiş görsellerde de `alt` düzenleme
+- Y1: paragraf içindeki bağlantı metnini ayrı öğe olarak düzenleme
+- Y2: çok satırlı öğelerde Shift+Enter ile `<br>` (şimdilik bilinçli olarak yok)
+- Y3: bozuk iç içe etiketlerle `insertHTML` sonrası metin kaybı (yalnızca betikle üretilebilir)
 
 ## Bilinen sorunlar
 - Karışık öğelerde düzenlenen öğenin iç HTML'i (temizlendikten sonra) tarayıcı serileştirmesiyle yazılır.
 - `<picture><source>` desteklenmiyor; yalnızca `<img src>` değişir.
 - GitHub'dan açılan sayfada harici CSS önizlemede uygulanmayabilir (raw sunucusu `text/plain` döndürür).
-- Kaydedildi durumu değişikliklerin parmak izine göre tutulur; kaydettikten sonra bir değişiklik yapıp geri almak "kaydedildi"ye döner (doğru), ama aynı dosyayı başka sekmede değiştirmek izlenmez.
+- Küçültülen görsel yine `data:` URI olarak gömülür; tarayıcı ayrı önbelleğe alamaz (bkz. Sıradaki işler).
+- Safari'nin eski sürümleri canvas'tan WebP üretemezse PNG döner; PNG orijinalden büyükse orijinal kullanılır (yani küçültme o tarayıcıda PNG/WebP girdide etkisiz kalabilir).
+- Aynı dosyayı başka sekmede değiştirmek izlenmez.

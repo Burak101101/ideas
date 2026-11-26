@@ -40,3 +40,25 @@ test("iki değişiklikten birini geri almak önizlemeyi eski haline döndürür"
   await expect(items).toHaveCount(1);
   await expect(frame.locator(".kart img").first()).toHaveAttribute("src", /^data:image\/png/);
 });
+
+test("değiştirilen görselin alt metni düzenlenir, indirilen dosyaya yazılır, geri alınınca eski haline döner", async ({ page }) => {
+  const frame = await openSample(page);
+  await replaceFirstCardImage(page);
+  const alt = page.getByLabel(/Görsel açıklaması/);
+  await expect(alt).toHaveValue("Simit");
+  await alt.fill("Susamlı taze simit");
+  const img = frame.locator(".kart img").first();
+  await expect(img).toHaveAttribute("alt", "Susamlı taze simit");
+
+  const dl = page.waitForEvent("download");
+  await page.getByRole("button", { name: "İndir" }).click();
+  const stream = await (await dl).createReadStream();
+  let out = "";
+  for await (const c of stream) out += c.toString();
+  expect(out).toMatch(/<img src="data:image\/png;base64,[^"]+" alt="Susamlı taze simit">/);
+  expect(out).not.toContain('alt="Simit"');
+
+  await page.getByRole("list", { name: "Değişiklikler" }).getByRole("button", { name: "Geri al" }).click();
+  await expect(img).toHaveAttribute("alt", "Simit");
+  await expect(img).toHaveAttribute("src", "gorseller/simit.svg");
+});

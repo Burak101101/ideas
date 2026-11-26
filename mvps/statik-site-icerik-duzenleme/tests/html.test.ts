@@ -122,6 +122,37 @@ describe("applyEdits", () => {
     expect(out).toContain('src="x&quot;y&amp;z.png"');
   });
 
+  it("changes an existing alt text together with the image", () => {
+    const img = regions.filter((r) => r.kind === "image")[1];
+    const out = applyEdits(page, regions, [{ id: img.id, kind: "image", newSrc: "b.png", newAlt: 'Taze "simit" & çay' }]);
+    expect(out).toBe(page.replace('<img src="a.png" srcset="a@2x.png 2x" alt="">', '<img src="b.png" alt="Taze &quot;simit&quot; &amp; çay">'));
+  });
+
+  it("adds an alt attribute when the image had none", () => {
+    const doc = "<p>x</p><img src=kapak.jpg><IMG class=a src='b.png'/>";
+    const rs = scanEditable(doc);
+    const out = applyEdits(doc, rs, [
+      { id: 1, kind: "image", newSrc: "k.png", newAlt: "Kapak" },
+      { id: 2, kind: "image", newSrc: "c.png", newAlt: "C" },
+    ]);
+    expect(out).toBe('<p>x</p><img alt="Kapak" src="k.png"><IMG alt="C" class=a src=\'c.png\'/>');
+  });
+
+  it("reports the original alt text of each image", () => {
+    const [a, b] = regions.filter((r) => r.kind === "image");
+    if (a.kind !== "image" || b.kind !== "image") throw new Error();
+    expect(a.alt).toBe("Kapak");
+    expect(b.alt).toBe("");
+    const r = scanEditable('<p>x</p><img src="a.png" alt=\'Fırın &amp; ekmek\'><img src=b.png alt=Tek><img src=c.png>');
+    expect(r.filter((x) => x.kind === "image").map((x) => (x.kind === "image" ? x.alt : 0))).toEqual(["Fırın & ekmek", "Tek", null]);
+  });
+
+  it("leaves alt untouched when newAlt is not given", () => {
+    const img = regions.filter((r) => r.kind === "image")[1];
+    const out = applyEdits(page, regions, [{ id: img.id, kind: "image", newSrc: "b.png" }]);
+    expect(out).toContain('alt=""');
+  });
+
   it("ignores edits for unknown ids", () => {
     expect(applyEdits(page, regions, [{ id: 999, kind: "text", newRaw: "x" }])).toBe(page);
   });

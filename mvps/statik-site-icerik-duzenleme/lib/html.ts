@@ -44,11 +44,15 @@ export type ImageRegion = {
   srcQuoted: boolean;
   /** range of the whole ` srcset="…"` attribute, removed when the image is replaced */
   srcset?: [number, number];
+  /** value range of an existing alt attribute */
+  altRange?: [number, number, boolean];
+  /** decoded original alt text; null when the image has no alt attribute */
+  alt: string | null;
 };
 
 export type Region = TextRegion | ImageRegion;
 
-export type Edit = { id: number; kind: "text"; newRaw: string } | { id: number; kind: "image"; newSrc: string };
+export type Edit = { id: number; kind: "text"; newRaw: string } | { id: number; kind: "image"; newSrc: string; newAlt?: string };
 
 const VOID = new Set("area base br col embed hr img input keygen link meta param source track wbr".split(" "));
 const RAW = new Set("script style textarea title xmp iframe noembed noframes plaintext".split(" "));
@@ -238,6 +242,7 @@ export function scanEditable(src: string): Region[] {
       const srcAttr = node.attrs.find((a) => a.name === "src");
       if (!srcAttr) return;
       const srcset = node.attrs.find((a) => a.name === "srcset");
+      const altAttr = node.attrs.find((a) => a.name === "alt");
       out.push({
         id: out.length,
         kind: "image",
@@ -247,6 +252,8 @@ export function scanEditable(src: string): Region[] {
         srcEnd: srcAttr.valueEnd,
         srcQuoted: srcAttr.quoted,
         ...(srcset ? { srcset: [srcset.wsStart, srcset.end] as [number, number] } : {}),
+        ...(altAttr ? { altRange: [altAttr.valueStart, altAttr.valueEnd, altAttr.quoted] as [number, number, boolean] } : {}),
+        alt: altAttr ? decodeEntities(src.slice(altAttr.valueStart, altAttr.valueEnd)) : null,
       });
       return;
     }
@@ -266,6 +273,18 @@ export function scanEditable(src: string): Region[] {
   };
   root.children.forEach(visit);
   return out;
+}
+
+const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: "\u00a0" };
+/** Minimal entity decoder for attribute values (named basics + numeric). */
+export function decodeEntities(s: string): string {
+  return s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e: string) => {
+    if (e[0] === "#") {
+      const code = e[1] === "x" || e[1] === "X" ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return Number.isFinite(code) && code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : m;
+    }
+    return ENTITIES[e.toLowerCase()] ?? m;
+  });
 }
 
 export function escapeText(s: string) {
@@ -299,6 +318,11 @@ export function applyEdits(src: string, regions: Region[], edits: Edit[]): strin
       const v = escapeAttr(e.newSrc);
       parts.push({ start: r.srcStart, end: r.srcEnd, text: r.srcQuoted ? v : `"${v}"` });
       if (r.srcset) parts.push({ start: r.srcset[0], end: r.srcset[1], text: "" });
+      if (e.newAlt !== undefined) {
+        const a = escapeAttr(e.newAlt);
+        if (r.altRange) parts.push({ start: r.altRange[0], end: r.altRange[1], text: r.altRange[2] ? a : `"${a}"` });
+        else parts.push({ start: r.nameEnd, end: r.nameEnd, text: ` alt="${a}"` });
+      }
     }
   }
   return splice(src, parts);

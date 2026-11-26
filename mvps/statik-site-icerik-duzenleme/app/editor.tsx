@@ -5,8 +5,10 @@ import { applyEdits, buildPreview, escapeText, scanEditable, type Region } from 
 import { changesKey, fileLabel, imageCheck, rawGithubBase, removeChange, toEdits, upsertChange, type Change } from "@/lib/changes";
 import { sanitizeInline } from "@/lib/sanitize";
 import { commitFile, getFile, GitHubError, missingFields } from "@/lib/github";
+import { formatBytes, shrinkNotice } from "@/lib/image";
+import { pickImage } from "@/lib/shrink";
 
-type Initial = { html: string; text: string; src: string | null; srcset: string | null; resolvedSrc: string };
+type Initial = { html: string; text: string; src: string | null; srcset: string | null; alt: string | null; resolvedSrc: string };
 type Doc = { source: string; fileName: string; baseHref: string };
 type Notice = { tone: "error" | "ok"; text: string; link?: string } | null;
 
@@ -32,6 +34,7 @@ export default function Editor() {
   const [changes, setChanges] = useState<Change[]>([]);
   const [loadError, setLoadError] = useState("");
   const [imageNotice, setImageNotice] = useState<Notice>(null);
+  const [shrink, setShrink] = useState(true);
   // Fingerprint of the edits at the last download/commit; "" = fresh document.
   const [savedKey, setSavedKey] = useState("");
   // Bumped on every open so the iframe remounts even if the same file is opened twice.
@@ -118,6 +121,7 @@ export default function Editor() {
           text: el.textContent ?? "",
           src: el.getAttribute("src"),
           srcset: el.getAttribute("srcset"),
+          alt: el.getAttribute("alt"),
           resolvedSrc: (el as HTMLImageElement).src ?? "",
         });
       }
@@ -130,6 +134,7 @@ export default function Editor() {
       else {
         el.setAttribute("src", c.newSrc);
         el.removeAttribute("srcset");
+        if (c.newAlt !== undefined) el.setAttribute("alt", c.newAlt);
       }
     }
 
@@ -221,35 +226,65 @@ export default function Editor() {
     d.addEventListener("submit", (e) => e.preventDefault(), true);
   }, [regionById, recordText]);
 
-  const onImagePicked = (file: File | undefined) => {
+  const onImagePicked = async (file: File | undefined) => {
     const id = pendingImage.current;
     pendingImage.current = null;
     if (imageInput.current) imageInput.current.value = "";
     if (id === null || !file) return;
     const check = imageCheck(file);
-    setImageNotice(check.message ? { tone: check.ok ? "ok" : "error", text: check.message } : null);
-    if (!check.ok) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = String(reader.result);
-      const el = elementFor(id);
-      const init = initial.current.get(id);
-      if (!el || !init) return;
-      el.setAttribute("src", dataUrl);
-      el.removeAttribute("srcset");
-      setChanges((list) =>
-        upsertChange(list, {
-          id,
-          kind: "image",
-          tag: "img",
-          oldLabel: fileLabel(init.src ?? ""),
-          newLabel: file.name,
-          newSrc: dataUrl,
-          oldThumb: init.resolvedSrc,
-        }),
-      );
-    };
-    reader.readAsDataURL(file);
+    if (!check.ok) return setImageNotice({ tone: "error", text: check.message ?? "" });
+    setImageNotice(null);
+    let picked;
+    try {
+      picked = await pickImage(file, shrink);
+    } catch {
+      return setImageNotice({ tone: "error", text: `"${file.name}" okunamadı.` });
+    }
+    if (picked.resized) setImageNotice({ tone: "ok", text: shrinkNotice(file.name, file.size, picked.bytes, picked.width, picked.height) });
+    else if (check.message)
+      setImageNotice({
+        tone: "ok",
+        text: shrink ? `"${file.name}" ${formatBytes(file.size)}; bu görsel küçültülemedi (SVG/GIF ya da okunamayan biçim) ve olduğu gibi gömüldü.` : check.message,
+      });
+    const el = elementFor(id);
+    const init = initial.current.get(id);
+    if (!el || !init) return;
+    el.setAttribute("src", picked.dataUrl);
+    el.removeAttribute("srcset");
+    setChanges((list) => {
+      const prev = list.find((c) => c.id === id);
+      return upsertChange(list, {
+        id,
+        kind: "image",
+        tag: "img",
+        oldLabel: fileLabel(init.src ?? ""),
+        newLabel: `${file.name} (${formatBytes(picked.bytes)})`,
+        newSrc: picked.dataUrl,
+        oldThumb: init.resolvedSrc,
+        ...(prev?.kind === "image" && prev.newAlt !== undefined ? { newAlt: prev.newAlt } : {}),
+      });
+    });
+  };
+
+  /** Alt text of a replaced image; the original value means "leave the attribute alone". */
+  const originalAlt = (id: number) => {
+    const region = regionById.get(id);
+    return region?.kind === "image" ? region.alt : null;
+  };
+  const setAlt = (id: number, value: string) => {
+    const original = originalAlt(id);
+    const el = elementFor(id);
+    if (el) {
+      if (original === null && value === "") el.removeAttribute("alt");
+      else el.setAttribute("alt", value);
+    }
+    setChanges((list) =>
+      list.map((c) => {
+        if (c.id !== id || c.kind !== "image") return c;
+        const { newAlt: _drop, ...rest } = c; // eslint-disable-line @typescript-eslint/no-unused-vars
+        return value === (original ?? "") ? rest : { ...rest, newAlt: value };
+      }),
+    );
   };
 
   const undo = (id: number) => {
@@ -264,6 +299,8 @@ export default function Editor() {
       } else {
         if (init.src !== null) el.setAttribute("src", init.src);
         if (init.srcset !== null) el.setAttribute("srcset", init.srcset);
+        if (init.alt !== null) el.setAttribute("alt", init.alt);
+        else el.removeAttribute("alt");
       }
     }
     setChanges((list) => removeChange(list, id));
@@ -392,6 +429,10 @@ export default function Editor() {
             Uygula
           </button>
         </form>
+        <label className="flex items-center gap-1.5 text-sm text-stone-700" title="Uzun kenarı 1600 px'i aşan ya da 300 KB'tan ağır fotoğraflar sayfaya gömülmeden önce tarayıcıda küçültülür.">
+          <input type="checkbox" checked={shrink} onChange={(e) => setShrink(e.target.checked)} className="accent-moss" />
+          Büyük görselleri küçült
+        </label>
         <button
           type="button"
           onClick={download}
@@ -470,13 +511,25 @@ export default function Editor() {
                       </button>
                     </div>
                     {c.kind === "image" ? (
+                      <>
                       <div className="flex items-center gap-2">
                         {c.oldThumb && <img src={c.oldThumb} alt="" className="h-10 w-10 rounded object-cover ring-1 ring-line" />}
                         <span className="text-stone-500 line-through">{c.oldLabel}</span>
                         <span aria-hidden>→</span>
                         <img src={c.newSrc} alt="" className="h-10 w-10 rounded object-cover ring-1 ring-line" />
-                        <span>{c.newLabel}</span>
+                        <span className="break-all">{c.newLabel}</span>
                       </div>
+                      <label className="mt-2 block">
+                        <span className="mb-0.5 block text-xs text-stone-600">Görsel açıklaması (alt metni — ekran okuyucular ve arama motorları için)</span>
+                        <input
+                          type="text"
+                          value={c.newAlt ?? originalAlt(c.id) ?? ""}
+                          onChange={(e) => setAlt(c.id, e.target.value)}
+                          placeholder="ör. Vitrinde sıcak simitler"
+                          className="w-full rounded-md border border-line px-2 py-1 text-sm"
+                        />
+                      </label>
+                      </>
                     ) : (
                       <p className="break-words">
                         <span className="text-stone-500 line-through">{c.oldLabel}</span> <span aria-hidden>→</span> <span>{c.newLabel || "(boş)"}</span>

@@ -3,7 +3,7 @@ import { parseRepo } from "./github";
 
 export type Change =
   | { id: number; kind: "text"; tag: string; oldLabel: string; newLabel: string; newRaw: string }
-  | { id: number; kind: "image"; tag: "img"; oldLabel: string; newLabel: string; newSrc: string; oldThumb?: string };
+  | { id: number; kind: "image"; tag: "img"; oldLabel: string; newLabel: string; newSrc: string; oldThumb?: string; newAlt?: string };
 
 export function upsertChange(list: Change[], c: Change): Change[] {
   const i = list.findIndex((x) => x.id === c.id);
@@ -18,7 +18,7 @@ export function removeChange(list: Change[], id: number): Change[] {
 }
 
 export function toEdits(list: Change[]): Edit[] {
-  return list.map((c) => (c.kind === "text" ? { id: c.id, kind: "text", newRaw: c.newRaw } : { id: c.id, kind: "image", newSrc: c.newSrc }));
+  return list.map((c) => (c.kind === "text" ? { id: c.id, kind: "text", newRaw: c.newRaw } : { id: c.id, kind: "image", newSrc: c.newSrc, ...(c.newAlt !== undefined ? { newAlt: c.newAlt } : {}) }));
 }
 
 export function fileLabel(src: string): string {
@@ -39,7 +39,7 @@ export function changesKey(list: Change[]): string {
   return list
     .slice()
     .sort((x, y) => x.id - y.id)
-    .map((c) => `${c.id}:${c.kind === "text" ? c.newRaw : `${c.newSrc.length}:${c.newSrc.slice(-64)}`}`)
+    .map((c) => `${c.id}:${c.kind === "text" ? c.newRaw : `${c.newSrc.length}:${c.newSrc.slice(-64)}:${c.newAlt ?? "\u0001"}`}`)
     .join("\u0000");
 }
 
@@ -51,7 +51,7 @@ export function imageCheck(file: { name: string; type: string; size: number }): 
   }
   if (file.size > LARGE_IMAGE_BYTES) {
     const mb = (file.size / 1024 / 1024).toFixed(1);
-    return { ok: true, message: `"${file.name}" ${mb} MB; sayfaya gömülünce siteyi yavaşlatabilir. Mümkünse 1 MB altına küçültün.` };
+    return { ok: true, message: `"${file.name}" ${mb} MB; sayfaya olduğu gibi gömülünce siteyi yavaşlatır. "Büyük görselleri küçült" seçeneğini açıp görseli yeniden seçin.` };
   }
   return { ok: true };
 }
