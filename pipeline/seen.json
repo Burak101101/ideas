@@ -64,6 +64,16 @@
       "slug": "sahada-degisiklik-onayi",
       "summary": "Küçük tadilat müteahhitleri sözlü istenen ek işleri sahada yazılı/imzalı onaya bağlamadığı için bu ücreti tahsil edemiyor.",
       "date": "2026-11-25"
+    },
+    {
+      "slug": "siparisten-ekim-plani",
+      "summary": "Restoranlara düzenli sipariş veren küçük mikro yeşillik üreticileri hangi gün kaç tepsi ekeceklerini tablolarla elle hesaplıyor ve sipariş değişikliklerini kaçırıyor.",
+      "date": "2026-11-26"
+    },
+    {
+      "slug": "imza-ajani-odeme-eslestirme",
+      "summary": "Onlarca aracı şirketle çalışan serbest kredi imza noterleri numarasız/toplu gelen ödemeleri tek tek işlere eşleştiremediği için ödenmemiş işleri gözden kaçırıyor.",
+      "date": "2026-11-26"
     }
   ]
 }
