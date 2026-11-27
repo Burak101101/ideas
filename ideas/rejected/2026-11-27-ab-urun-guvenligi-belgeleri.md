@@ -3,6 +3,7 @@ slug: ab-urun-guvenligi-belgeleri
 found: 2026-11-27
 category: ecommerce
 source: auto
+score: 3.33
 ---
 # El yapımı ürün satıcıları için AB ürün güvenliği (GPSR) belge hazırlığı
 
@@ -25,3 +26,15 @@ AB dışından (ABD, İngiltere vb.) veya AB içinden pazar yerleri ve kendi ma�
 - Ücretsiz rehberler ve Word şablonları — her ürün için elle doldurma; ürün çeşitlemelerinde (renk/boyut) tekrar.
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-27)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 4 | TrustMRR `ecommerce`: 733 toplam, 98 ≥$2K gelir, oran %13.4 (güçlü kategori sinyali, `pipeline/logs/2026-11-27-trustmrr.md`); fikir dosyasında Shopify ve Folksy forumlarından birden çok satıcının satış kapattığını söyleyen doğrudan alıntılar. |
+| büyüme | 3 | Yönetmelik 13 Aralık 2024'ten beri yürürlükte, Komisyon 2025'te uygulama rehberi yayımladı (https://eur-lex.europa.eu/eli/C/2025/6233/oj); ilk telaş dalgası 2024–25'teydi. Shopify başlığına 2026-10'da hâlâ yanıt gelmesi süren bir ihtiyaç gösteriyor, ama büyüme trendi verisi yok. |
+| rekabet | 2 | Ürüne özel risk analizi ve teknik dosya hazırlayan ücretli platformlar (https://easecert.com/pages/how-to-be-gpsr-compliant-a-practical-guide), şablonlu Etsy uyum hizmeti (https://euverify.com/gpsr-for-etsy/), Shopify uygulama mağazasında GPSR uygulaması (https://apps.shopify.com/gpsr-compliance-dashboard/reviews), ücretsiz risk analizi şablonu (https://www.24hour-ar.com/free-risk-assessment-template-for-gpsr-compliance), etiket üreteci (https://maker-label-studio.vercel.app/gpsr-label/) ve Fiverr hizmetleri var. Alan kalabalık (vendor iddiaları, doğrulanmadı). |
+| farklılaşma | 3 | Varyantlara (renk/boyut) toplu belge üretimi somut bir boşluk olabilir, ama rakip şablonlar zaten tehlike → risk → önlem akışını sunuyor (euverify). Belirgin bir üstünlük yok. |
+| dağıtım | 4 | Hedef kitle Etsy/Shopify/Folksy forumlarında yoğun ve bu forumlarda GPSR başlıkları açık (fikir dosyasındaki linkler); "GPSR risk assessment template" gibi aramalar SEO fırsatı. |
+| yapılabilirlik | 4 | Çekirdek: form → ürün bazında risk analizi/teknik dosya PDF'i + etiket metni. Harici ücretli API gerekmiyor; ~10 günde tek kişiyle yapılabilir. Hukuki doğruluk sorumluluğu risk. |
+
+**Ortalama:** 3.33 — **Karar:** kaldı

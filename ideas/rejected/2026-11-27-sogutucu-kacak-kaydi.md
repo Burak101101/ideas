@@ -3,6 +3,7 @@ slug: sogutucu-kacak-kaydi
 found: 2026-11-27
 category: green-tech
 source: auto
+score: 3.00
 ---
 # 15 lb+ soğutucu akışkanlı cihazlar için kaçak oranı ve onarım kaydı
 
@@ -27,3 +28,15 @@ Birkaç ticari soğutma/klima cihazı işleten restoran, market, küçük otel s
 - Ücretsiz PDF/Excel şablonları (EPA, Hawaii) — hesaplama ve son tarih takibi elle.
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-27)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | Zorunlu kural, güçlü itici: EPA 2026 bilgi notu (https://www.epa.gov/system/files/documents/2026-01/er-r-fact-sheet-leak-repair-2026-01-13_1.pdf). TrustMRR `green-tech`: yalnızca 32 toplam, 4 ≥$2K gelir, 0 ≥$2K MRR (oran %12.5 ama sayı çok düşük → zayıf sinyal, `pipeline/logs/2026-11-27-trustmrr.md`). Kullanıcı şikâyeti kanıtı az (2017 tarihli bir yazı). |
+| büyüme | 4 | Eşik 50 lb'den 15 lb'ye indi, kapsam %70 genişledi (https://www.bsigroup.com/en-US/insights-and-media/insights/blogs/federal-regulators-just-expanded-refrigerant-oversight-by-70, https://www.achrnews.com/articles/166298-leak-rules-tighten-as-threshold-drops-to-15-pounds). |
+| rekabet | 2 | Aynı soruna odaklı bağımsız bir ürün Product Hunt'ta yayında: ücretsiz kaçak oranı ve onarım son tarihi hesaplayıcısı, $29–89/ay planlar (https://www.producthunt.com/products/ref-leaklog, vendor iddiası). Ayrıca saha yönetim yazılımı modülleri, CMMS araçları (https://oxmaint.com/industries/hvac/epa-608-refrigerant-tracking-compliance-software, https://ifactoryapp.com/industries/hvac/refrigerant-leak-rate-calculation-for-hvac-epa-rules), form şablonları (https://www.mangoapps.com/templates/forms/epa-section-608-leak-rate-calculation-sheet) ve ücretsiz eyalet hesap tablosu (https://health.hawaii.gov/cab/files/2026/03/AIM-Act-Compliance-Guide-for-Small-Businesses.pdf). |
+| farklılaşma | 2 | Planlanan özellikler (kaçak oranı hesabı, 30 gün takibi, kayıt saklama) adanmış rakipte zaten var; somut bir fark tanımlanmadı. |
+| dağıtım | 3 | Teknisyenlere sektör yayınları ve HVAC eğitim siteleri üzerinden ulaşılabilir (https://www.hvacrschool.com/the-epas-15-pound-refrigerant-threshold-in-2026/); restoran/market sahiplerine ulaşmak zor. |
+| yapılabilirlik | 4 | Cihaz kaydı + dolum girişi + iki EPA yöntemiyle hesap + son tarih uyarısı + dışa aktarım; ücretli API yok, ~10 günde yapılabilir. |
+
+**Ortalama:** 3.00 — **Karar:** kaldı

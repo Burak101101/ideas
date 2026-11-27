@@ -3,6 +3,7 @@ slug: muhasebe-eksik-belge-takibi
 found: 2026-11-27
 category: fintech
 source: auto
+score: 2.83
 ---
 # Serbest muhasebeciler için müşteriden eksik fiş ve açıklama toplama
 
@@ -25,3 +26,15 @@ Not: HN dışındaki kaynaklar satıcı içerikleri; bağımsız forum kanıtı 
 - Muhasebe programlarının kendi "müşteriye sor" özellikleri — tek programa bağlı; e-posta + tablo hâlâ yaygın.
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-27)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR `fintech`: 516 toplam, 30 ≥$2K gelir, oran %5.8 (orta/zayıf, `pipeline/logs/2026-11-27-trustmrr.md`). Kanıtların çoğu satıcı blogları; bağımsız kanıt tek HN yorumu. Buna karşın bu iş için ayrı ücret ödeniyor: Financial Cents ReCats ~$4–5/müşteri/ay (https://financial-cents.com/financial-cents-recats), Uncat $9/müşteri/ay (https://www.g2.com/products/uncat/reviews). |
+| büyüme | 3 | Yeni rakip modüller (ReCats, TaxDome bookkeeping hub: https://taxdome.com/bookkeeping-hub) çıkıyor, bu ilgi gösteriyor ama pazar büyüme verisi yok. |
+| rekabet | 2 | Uncat (adanmış ürün), Financial Cents ReCats, TaxDome (müşteri başı ücretsiz, plana dahil), muhasebe programlarının yerel "müşteriye sor" özellikleri. Doymuş ve güçlü oyuncular. |
+| farklılaşma | 2 | Planlanan tek fark "daha ucuz / programdan bağımsız"; TaxDome zaten müşteri başı ücret almıyor, rakiplerde QBO senkronu var. Somut üstünlük yok. |
+| dağıtım | 3 | Defter tutucu toplulukları (Reddit r/Bookkeeping, ProAdvisor grupları) var ama rakipler bu kanallarda aktif ve büyük pazarlama bütçeli. |
+| yapılabilirlik | 4 | CSV banka hareketi yükleme + müşteriye soru linki + yanıt/fiş toplama ~10 günde yapılabilir; muhasebe programı entegrasyonu olmadan değer sınırlı kalır. |
+
+**Ortalama:** 2.83 — **Karar:** kaldı
