@@ -74,6 +74,21 @@
       "slug": "imza-ajani-odeme-eslestirme",
       "summary": "Onlarca aracı şirketle çalışan serbest kredi imza noterleri numarasız/toplu gelen ödemeleri tek tek işlere eşleştiremediği için ödenmemiş işleri gözden kaçırıyor.",
       "date": "2026-11-26"
+    },
+    {
+      "slug": "sogutucu-kacak-kaydi",
+      "summary": "2026'dan itibaren 15 lb+ HFC'li ticari soğutma/klima cihazlarının sahipleri ve küçük servis firmaları zorunlu kaçak oranı hesabı, 30 günlük onarım süresi ve 3 yıllık kayıtları kâğıt ve tablolarla takip ediyor.",
+      "date": "2026-11-27"
+    },
+    {
+      "slug": "ab-urun-guvenligi-belgeleri",
+      "summary": "AB'ye satan küçük el yapımı ürün satıcıları ürün güvenliği yönetmeliğinin istediği ürün başına risk analizi, teknik dosya ve etiket bilgisini hazırlayamadığı için AB satışlarını kapatıyor.",
+      "date": "2026-11-27"
+    },
+    {
+      "slug": "muhasebe-eksik-belge-takibi",
+      "summary": "Küçük işletmelere defter tutan serbest muhasebeciler ay sonunda kategorize edilemeyen hareketler ve eksik fişler için müşterileri satır satır e-postayla kovalıyor.",
+      "date": "2026-11-27"
     }
   ]
 }
