@@ -138,6 +138,32 @@ describe("applyEdits", () => {
     expect(out).toBe('<p>x</p><img alt="Kapak" src="k.png"><IMG alt="C" class=a src=\'c.png\'/>');
   });
 
+  it("escapes apostrophes inside a single-quoted alt (K1)", () => {
+    const doc = "<p>x</p><img src='vitrin.jpg' alt='Vitrin'>";
+    const rs = scanEditable(doc);
+    const out = applyEdits(doc, rs, [{ id: 1, kind: "image", newSrc: "v.png", newAlt: "Ayşe'nin vitrini" }]);
+    expect(out).toBe("<p>x</p><img src='v.png' alt='Ayşe&#39;nin vitrini'>");
+    const again = scanEditable(out).find((r) => r.kind === "image");
+    expect(again?.kind === "image" && again.alt).toBe("Ayşe'nin vitrini");
+  });
+
+  it("keeps an attribute-breakout payload inside a single alt attribute (K1)", () => {
+    const payload = `Vitrin' onload='document.title="XSS"`;
+    for (const doc of ["<img src='a.jpg' alt='A'>", '<img src="a.jpg" alt="A">', "<img src=a.jpg alt=A>", "<img src=a.jpg>"]) {
+      const rs = scanEditable(doc);
+      const out = applyEdits(doc, rs, [{ id: rs[0].id, kind: "image", newSrc: "b.png", newAlt: payload }]);
+      const img = scanEditable(out).find((r) => r.kind === "image");
+      expect(img?.kind === "image" && img.alt).toBe(payload);
+    }
+  });
+
+  it("escapes apostrophes inside a single-quoted src (K1)", () => {
+    const doc = "<img src='a.jpg'>";
+    const rs = scanEditable(doc);
+    const out = applyEdits(doc, rs, [{ id: rs[0].id, kind: "image", newSrc: "x' onerror='y.png" }]);
+    expect(out).toBe("<img src='x&#39; onerror=&#39;y.png'>");
+  });
+
   it("reports the original alt text of each image", () => {
     const [a, b] = regions.filter((r) => r.kind === "image");
     if (a.kind !== "image" || b.kind !== "image") throw new Error();

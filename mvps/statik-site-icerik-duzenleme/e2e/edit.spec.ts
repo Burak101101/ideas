@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { editHeading, openSample, replaceFirstCardImage } from "./helpers";
+import { editHeading, openSample, PNG, replaceFirstCardImage } from "./helpers";
 
 test("başlık yerinde değişir ve önizleme anında güncellenir", async ({ page }) => {
   const frame = await openSample(page);
@@ -61,4 +61,35 @@ test("değiştirilen görselin alt metni düzenlenir, indirilen dosyaya yazılı
   await page.getByRole("list", { name: "Değişiklikler" }).getByRole("button", { name: "Geri al" }).click();
   await expect(img).toHaveAttribute("alt", "Simit");
   await expect(img).toHaveAttribute("src", "gorseller/simit.svg");
+});
+
+test("tek tırnaklı alt'a kesme işaretli açıklama yazmak sayfayı bozmaz, script çalıştırmaz (K1)", async ({ page, browser }) => {
+  await page.goto("/");
+  await page.getByTestId("html-upload").setInputFiles({
+    name: "vitrin.html",
+    mimeType: "text/html",
+    buffer: Buffer.from("<!doctype html><html><head><title>Fırın</title></head><body><h1>Fırın</h1><img src='vitrin.jpg' alt='Vitrin'></body></html>"),
+  });
+  const frame = page.frameLocator('iframe[title="Önizleme"]');
+  const chooser = page.waitForEvent("filechooser");
+  await frame.locator("img").click();
+  await (await chooser).setFiles({ name: "yeni.png", mimeType: "image/png", buffer: PNG });
+  const alt = page.getByLabel(/Görsel açıklaması/);
+  await expect(alt).toHaveValue("Vitrin");
+  const payload = `Ayşe'nin vitrini' onload='document.title="XSS"`;
+  await alt.fill(payload);
+
+  const dl = page.waitForEvent("download");
+  await page.getByRole("button", { name: "İndir" }).click();
+  const stream = await (await dl).createReadStream();
+  let out = "";
+  for await (const c of stream) out += c.toString();
+
+  const check = await browser.newPage();
+  await check.setContent(out, { waitUntil: "load" });
+  const img = check.locator("img");
+  await expect(img).toHaveAttribute("alt", payload);
+  expect(await img.evaluate((el) => el.getAttributeNames().sort())).toEqual(["alt", "src"]);
+  expect(await check.title()).toBe("Fırın");
+  await check.close();
 });

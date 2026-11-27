@@ -291,7 +291,7 @@ export function escapeText(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/ /g, "&nbsp;");
 }
 export function escapeAttr(s: string) {
-  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 }
 
 type Splice = { start: number; end: number; text: string };
