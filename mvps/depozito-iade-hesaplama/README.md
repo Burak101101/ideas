@@ -10,6 +10,11 @@ ABD'deki küçük ev sahipleri için tek sayfalık araç. Arayüz İngilizce (he
 3. "Create statement" yazdırılabilir itemize mektup açar (tarih, kalemler, toplamlar, son tarih ve yasa atfı); "Print" tarayıcı yazdırma diyaloğunu açar, baskıda yalnızca mektup çıkar.
 4. Kaydedilen çıkışlar son tarihe göre sıralı listelenir: geçmiş olanlar **Overdue** (= "süre geçti"), ≤ 3 gün kalanlar **Due soon** (= "yaklaşıyor"), diğerleri **On track**. Veriler `localStorage`'da (`deposit-tracker:v1`) saklanır; düzenleme ve silme var.
 
+5. "Your details" kartında ev sahibinin adı ve posta adresi bir kez girilir (`deposit-tracker:landlord`), her kayıtta kiracının yönlendirme adresi tutulur; ikisi de mektupta gönderen/alıcı bloğu olarak basılır. Eksikse önizlemede uyarı çıkar.
+6. Tutar alanları doğrulanır: negatif, sayı olmayan ve çok büyük değerler hata verir; `$1,500` yazılabilir. Depozito zorunludur.
+7. Kaydedilmemiş değişiklik varken başka kayda geçmek ya da yeni kayda başlamak onay ister; sayfadan çıkarken tarayıcı uyarır.
+8. Mobilde son tarih ve iade tutarı altta sabit bir çubukta görünür. Mektup önizlemesi Escape ile kapanır.
+
 Sayfada "Not legal advice" uyarısı bulunur.
 
 ## Stack ve gerekçe
@@ -31,5 +36,6 @@ Yok. Ücretli API veya gizli anahtar gerekmez.
 ## Eksikler
 - Yalnızca 11 eyalet; şehir düzeyi kurallar (ör. bazı şehirlerde faiz zorunluluğu) yok.
 - Eyalete özgü otomatik faiz hesabı yok (faiz elle girilir).
-- Kaydedilmemiş form değişiklikleri sayfa yenilenince kaybolur.
+- Kaydedilmemiş form değişiklikleri uyarıyla korunur ama taslak olarak saklanmaz.
+- Bozuk ya da eski biçimli kayıtlar yüklenirken sessizce atlanır (kullanıcıya bildirilmez).
 - Texas tablodan çıkarıldı: resmi tüzük sayfası bu oturumda metin döndürmedi, doğrulanamadı.

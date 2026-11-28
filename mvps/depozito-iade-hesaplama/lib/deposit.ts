@@ -1,5 +1,7 @@
 import { findState } from "./states";
 
+const ISO = /^\d{4}-\d{2}-\d{2}$/;
+
 export type Deduction = {
   id: string;
   description: string;
@@ -19,9 +21,26 @@ export type MoveOut = {
   stateCode: string;
   interest: number;
   deductions: Deduction[];
+  /** Where the tenant wants the statement and refund sent. Older records may lack it. */
+  forwardingAddress?: string;
 };
 
-const ISO = /^\d{4}-\d{2}-\d{2}$/;
+export const MAX_AMOUNT = 99_999_999;
+
+export type ParsedAmount = { value: number; error: string | null; empty: boolean };
+
+/** Parses a dollar field. Empty is not an error (callers decide if it is required). */
+export function parseAmount(raw: string): ParsedAmount {
+  const s = raw.replace(/[$,\s]/g, "");
+  if (s === "") return { value: 0, error: null, empty: true };
+  const n = Number(s);
+  if (Number.isNaN(n)) return { value: 0, error: "Enter a number.", empty: false };
+  if (n < 0) return { value: 0, error: "Amount can't be negative.", empty: false };
+  if (!Number.isFinite(n) || n > MAX_AMOUNT) return { value: 0, error: "Amount is too large.", empty: false };
+  return { value: Math.round(n * 100) / 100, error: null, empty: false };
+}
+
+export const isIsoDate = (s: string) => ISO.test(s) && !Number.isNaN(Date.parse(s + "T00:00:00Z"));
 
 function toUtc(iso: string): number {
   if (!ISO.test(iso)) throw new Error(`Invalid date: ${iso}`);

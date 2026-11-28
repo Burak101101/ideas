@@ -21,6 +21,7 @@ describe("storage", () => {
       stateCode: "CA",
       interest: 0,
       deductions: [],
+      forwardingAddress: "",
     };
     expect(saveRecords(s, [rec])).toBe(true);
     expect(loadRecords(s)).toEqual([rec]);
