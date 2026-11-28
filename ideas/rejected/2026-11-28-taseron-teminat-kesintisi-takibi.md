@@ -3,6 +3,7 @@ slug: taseron-teminat-kesintisi-takibi
 found: 2026-11-28
 category: fintech
 source: auto
+score: 3.00
 ---
 # Küçük taşeronlar için teminat kesintisi (retainage) alacak takibi
 
@@ -26,3 +27,15 @@ Yılda birkaç milyon dolar altı ciroyla ana yüklenicilere çalışan ABD'li k
 - Excel — iş başına kesinti, iade koşulu (iş bitimi/kabul), iade talep tarihi ve haciz (lien) süresi elle izleniyor.
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-28)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR `fintech`: 517 toplam, 29 ≥$2K gelir, oran %5.6 (orta-zayıf; `pipeline/logs/2026-11-28-trustmrr.md`). Kanıt güçlü ve güncel: iki ayrı muhasebe topluluğu başlığı (2022, 2024) ve 492 katılımcılı anket — "43% … waiting more than 90 days to collect final payment and retainage" (https://www.contractormag.com/management/news/55403190/subcontractors-are-still-financing-their-own-jobs-2026-survey-finds; anketi bir hakediş yazılımı şirketi yaptı). |
+| büyüme | 3 | Alana özel büyüme verisi yok; inşaat ruhsat hacmi yatay (https://www.census.gov/construction/nrc/pdf/newresconst_202609.pdf). Yeni girişler var (yakın zamanda açılmış düz ücretli taşeron muhasebe aracı: https://marginlock.pages.dev/resources/best/best-construction-accounting-software-small-business) → ilgi var, ölçülebilir trend yok. |
+| rekabet | 2 | Retainage'ı açıkça hedefleyen çok sayıda araç ve 2026 karşılaştırma listesi: hakediş yazılımları (https://www.siteline.com/blog/best-construction-billing-software-for-subcontractors), inşaat faturalama araçları (https://agiled.app/blog/best-invoicing-software-for-construction), taşeron muhasebe araçları (https://constructioncoverage.com/software/accounting/best-for-subcontractors), Knowify ~$99 (https://www.cloudwards.net/subcontractor-management-software/). Küçük taşeron için düz ücretli retainage aracı da artık var (MarginLock, yukarıda). |
+| farklılaşma | 3 | Yalnızca teminat defteri (iş başına tutulan/iade edilen, iade talep tarihi, nakit esaslı gerçek gelir) basit ve ucuz bir açı; ama yukarıdaki araçlar retainage + WIP'i zaten kapsıyor, muhasebe yazılımıyla entegrasyon olmadan ikinci bir kayıt yeri gerektiriyor. |
+| dağıtım | 3 | Hedef kitle muhasebe yazılımı topluluklarında ve serbest muhasebeciler üzerinden erişilebilir (https://quickbooks.intuit.com/community/reports-and-accounting-5/contractor-retention-43747), ancak SEO alanı rakip satıcı bloglarıyla dolu (https://www.siteline.com/blog/quickbooks-and-aia-billing-software, https://liveflow.com/blog/retainage-accounting-in-quickbooks-online-the-complete-workaround-guide-for-contractors). |
+| yapılabilirlik | 4 | İş/fatura/kesinti CRUD + hesaplar tarayıcıda ~10 günde yapılabilir; eyalete göre değişen iade/haciz süreleri doğru modellenmezse yanlış yönlendirir, bu yüzden kullanıcı girişine bırakılmalı. |
+
+**Ortalama:** 3.00 — **Karar:** kaldı

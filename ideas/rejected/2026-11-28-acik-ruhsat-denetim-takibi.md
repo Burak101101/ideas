@@ -3,6 +3,7 @@ slug: acik-ruhsat-denetim-takibi
 found: 2026-11-28
 category: productivity
 source: auto
+score: 3.17
 ---
 # Küçük yükleniciler için açık yapı ruhsatı ve denetim takibi
 
@@ -27,3 +28,15 @@ Aynı anda 5–50 ruhsatlı işi olan, 2+ belediyede çalışan ABD'li küçük 
 - Excel/Trello — yaygın; bitiş tarihi uyarısı ve "son denetim planlanmamış" listesi elle tutuluyor.
 
 ## Kullanıcı notu
+
+## Değerlendirme (2026-11-28)
+| Kriter | Puan | Gerekçe + kaynak |
+|---|---|---|
+| talep | 3 | TrustMRR `productivity`: 3835 toplam, 255 ≥$2K gelir, oran %6.6 (orta; `pipeline/logs/2026-11-28-trustmrr.md`). Kanıtların çoğu doğrulanmamış arama özetleri ya da eski forum başlıkları (contractortalk, brownstoner ~2012); en güncel kaynaklar ruhsat hizmeti satan şirket blogları (ipermitusa, payhip) — tarafsız değil. |
+| büyüme | 3 | ABD ruhsat hacmi yatay: Eylül 2026 ön verisi ~1.40M yıllık (https://www.census.gov/construction/nrc/pdf/newresconst_202609.pdf); Q1 2026 tek aile ruhsatları %7.6 düştü (https://www.nahb.org/blog/2026/05/permits-Q1-2026). Satıcı kaynaklı "ruhsat takip aracı kullanımı artıyor" iddiası doğrulanamadı (https://ustechautomations.com/resources/blog/contractor-permit-tracking-automation-platform-comparison). |
+| rekabet | 2 | Kalabalık: özel ruhsat takip SaaS'ı (https://permittracker.app/, $49/ay'dan), saha hizmeti/inşaat yönetimi araçlarında ruhsat modülleri (https://projul.com/blog/best-construction-permit-tracking-software/, https://vimeo.com/760064034), çok sayıda karşılaştırma listesi (https://www.capterra.com/permit-software/?page=2, https://wifitalents.com/best/building-permit-tracking-software/); belediye başvuru portalları yükleniciye ücretsiz (https://www.salesforce.com/government/state-local-government-software/permitting-software/best-permitting-software/). |
+| farklılaşma | 3 | "Fatura ödendi ama son denetim planlanmadı" listesi ve bitiş tarihi uyarısı somut bir açı (https://www.ipermitusa.com/ipermit-blog/how-to-track-permit-compliance-across-service-jobs), ancak mevcut ruhsat takipçileri de bitiş tarihi uyarısı veriyor; belediye portallarından otomatik durum çekmeden fark sınırlı kalır. |
+| dağıtım | 3 | Yükleniciler forumlarda ve saha yazılımı topluluklarında (contractortalk, kullanıcı toplulukları) erişilebilir ama dağınık; "permit tracking" SEO alanı rakip içerikleriyle dolu (yukarıdaki listeler). |
+| yapılabilirlik | 5 | Ruhsat/denetim kayıtları + tarih hesapları + filtre listeleri; tarayıcıda CRUD, harici ücretli API yok; ~10 günde yapılabilir. |
+
+**Ortalama:** 3.17 — **Karar:** kaldı
