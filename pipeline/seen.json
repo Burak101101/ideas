@@ -89,6 +89,16 @@
       "slug": "muhasebe-eksik-belge-takibi",
       "summary": "Küçük işletmelere defter tutan serbest muhasebeciler ay sonunda kategorize edilemeyen hareketler ve eksik fişler için müşterileri satır satır e-postayla kovalıyor.",
       "date": "2026-11-27"
+    },
+    {
+      "slug": "acik-ruhsat-denetim-takibi",
+      "summary": "Birden çok belediyede çalışan küçük yükleniciler ruhsat, bekleyen denetim ve bitiş tarihlerini tablolarda tutuyor; son denetim planlanmadığı için ruhsatlar açık kalıp süresi doluyor.",
+      "date": "2026-11-28"
+    },
+    {
+      "slug": "taseron-teminat-kesintisi-takibi",
+      "summary": "Küçük taşeronlar hakediş faturalarından yapılan %5–10 teminat kesintisini muhasebe yazılımında modelleyemediği için tablolarla izliyor, iade talebini geciktiriyor ve gelir raporları yanlış çıkıyor.",
+      "date": "2026-11-28"
     }
   ]
 }
